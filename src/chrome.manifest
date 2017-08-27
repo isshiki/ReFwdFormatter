@@ -1,0 +1,2 @@
+content  refwdformatter  chrome/content/
+overlay  chrome://messenger/content/messengercompose/messengercompose.xul  chrome://refwdformatter/content/overlay-messengercompose.xul

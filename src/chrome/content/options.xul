@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+<prefwindow
+  id="prefs" title="ReFwdFormatter Preferences"  buttons="accept,cancel"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <prefpane id="pref.general">
+    <preferences>
+      <preference id="replytext" name="refwdformatter.replytext.on" type="bool" />
+      <preference id="replyhtml" name="refwdformatter.replyhtml.on" type="bool" />
+      <preference id="listtext" name="refwdformatter.listtext.on" type="bool" />
+      <preference id="listhtml" name="refwdformatter.listhtml.on" type="bool" />
+      <preference id="fwdsubject" name="refwdformatter.fwdsubject.on" type="bool" />
+    </preferences>
+    <hbox align="center">
+      <checkbox id="check1" preference="replytext" label="Remove the '&gt;' prefix from quote in text mail."/>
+    </hbox>
+    <hbox align="center">
+      <checkbox id="check2" preference="replyhtml" label="Remove the '|' prefix from quote in html mail."/>
+    </hbox>
+    <hbox align="center">
+      <checkbox id="check3" preference="listtext" label="Remove the '&gt;' prefix from quote in text list-mail."/>
+    </hbox>
+    <hbox align="center">
+      <checkbox id="check4" preference="listhtml" label="Remove the '|' prefix from quote in html list-mail."/>
+    </hbox>
+    <hbox align="center">
+      <checkbox id="check5" preference="fwdsubject" label="Remove '[' and ']' from the forward subject.(version 1.x, 2.x only)"/>
+    </hbox>
+  </prefpane>
+</prefwindow>
