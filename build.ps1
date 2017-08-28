@@ -11,6 +11,7 @@ if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
 	"    $a\Thunderbird\Profiles\$b\extensions\  "
 	exit
 }
+invoke-item "$a\Thunderbird\Profiles\$b\extensions"
 "  opened."
 ""
 "Opening src folder..."
