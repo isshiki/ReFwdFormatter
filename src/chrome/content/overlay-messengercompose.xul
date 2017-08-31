@@ -61,15 +61,15 @@ var refwdformatter = {
         e.undo(1);
       }
     }
-    window.setTimeout("refwdformatter.editing=false", 700);
+    window.setTimeout(function () { refwdformatter.editing=false; }, 700)
   },
 
   onDelayLoad : function() {
-    window.setTimeout("refwdformatter.format()", 700);
+    window.setTimeout(function () { refwdformatter.format(); }, 700)
   },
 
   onDelayReopen : function() {
-    window.setTimeout("refwdformatter.format()", 300);
+    window.setTimeout(function () { refwdformatter.format(); }, 700)
   },
 
   onLoad : function() {
