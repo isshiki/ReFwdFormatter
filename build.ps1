@@ -3,14 +3,45 @@
 "## How to build and test this add-on ##"
 "#######################################"
 ""
-"Opening Thunderbird add-on folder..."
+"To work this batch file successfully, please install 7-Zip to 'C:\Program Files\7-Zip\7z.exe'"
+$env:Path += ";C:\Program Files\7-Zip\"
+"%7zip%"
+""
+"Archive 'ReFwdFormatter' Program"
+$addon = "refwdformatter@masahiko.info.xpi"
+$xpi = "refwdformatter-newversion.xpi"
+$zip = "refwdformatter-newversion.zip"
+If (Test-Path bin\$zip){
+	"  removing bin\$zip"
+	Remove-Item bin\$zip
+	"  removed."
+}
+""
+"  compressing src\* -> bin\$zip"
+7z a .\bin\$zip .\src\*
+"  compressed."
+""
+If (Test-Path bin\$zip){
+	"  moving bin\$zip -> bin\$xpi"
+	Move-Item -Path bin\$zip bin\$xpi -Force
+	"  moved."
+} else {
+	exit
+}
+""
+"Override-Copy 'ReFwdFormatter' Program to local system"
 $a = $env:APPDATA
 $b = (Get-ChildItem $a\Thunderbird\Profiles).Name
 if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
-	"  cloudn't detect your Thunderbird Profiles. Please install Thunderbird app and ReFwdFormatter add-on on Windows. Then, check the following folder: "
-	"    $a\Thunderbird\Profiles\$b\extensions\  "
-	exit
+	"  cloudn't detect your Thunderbird Profiles. Please install Thunderbird app and ReFwdFormatter add-on on Windows. Then, check the following the folder and file: "
+	"    $a\Thunderbird\Profiles\$b\extensions\$addon"
+} else {
+	"  copying bin\$xpi -> $a\Thunderbird\Profiles\$b\extensions\$addon"
+	Copy-Item bin\$xpi "$a\Thunderbird\Profiles\$b\extensions\$addon" -Force
+	"  copied."
 }
+""
+"Opening Thunderbird add-on folder..."
 invoke-item "$a\Thunderbird\Profiles\$b\extensions"
 "  opened."
 ""
