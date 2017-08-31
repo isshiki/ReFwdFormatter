@@ -5,7 +5,6 @@
 ""
 "To work this batch file successfully, please install 7-Zip to 'C:\Program Files\7-Zip\7z.exe'"
 $env:Path += ";C:\Program Files\7-Zip\"
-"%7zip%"
 ""
 "Archive 'ReFwdFormatter' Program"
 $addon = "refwdformatter@masahiko.info.xpi"
