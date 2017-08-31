@@ -1,5 +1,5 @@
-pref("refwdformatter.replytext.on", true);
-pref("refwdformatter.replyhtml.on", true);
-pref("refwdformatter.listtext.on", true);
-pref("refwdformatter.listhtml.on", true);
-pref("refwdformatter.fwdsubject.on", true);
+pref("extensions.refwdformatter.replytext.on", true);
+pref("extensions.refwdformatter.replyhtml.on", true);
+pref("extensions.refwdformatter.listtext.on", true);
+pref("extensions.refwdformatter.listhtml.on", true);
+pref("extensions.refwdformatter.fwdsubject.on", true);

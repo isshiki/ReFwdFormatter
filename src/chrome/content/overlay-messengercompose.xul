@@ -12,7 +12,7 @@ var refwdformatter = {
       return;
     }
     refwdformatter.editing = true;
-    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("refwdformatter.");
+    var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.refwdformatter.");
     var ret = prefs.getBoolPref("replytext.on");
     var reh = prefs.getBoolPref("replyhtml.on");
     var lit = prefs.getBoolPref("listtext.on");
