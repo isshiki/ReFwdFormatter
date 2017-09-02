@@ -41,9 +41,11 @@ if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
 }
 ""
 "Getting script options."
-$mode = $args[0].ToLower()
-If ($mode -eq "-silent") {
-	exit
+If ($args.Length -ne 0) {
+	$mode = $args[0].ToLower()
+	If ($mode -eq "-silent") {
+		exit
+	}
 }
 ""
 "Opening Thunderbird add-on folder..."
