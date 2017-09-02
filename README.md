@@ -24,12 +24,17 @@ Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to bu
 
 ```
 install.rdf                                 // meta-information about the extension
+
 chrome.manifest                             // list of packages and overlays
+
 chrome/
 chrome/content/
 chrome/content/options.xul                  // UI of Preferences
 chrome/content/overlay-messengercompose.xul // loading logic code
 chrome/content/overlay-messengercompose.js  // logic code
+
+defaults/
+defaults/preferences/
 defaults/preferences/pref.js                // default value of Preferences
 
 ```
