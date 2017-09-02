@@ -37,8 +37,11 @@ defaults/preferences/pref.js  // default value of Preferences
 
 - v 1.57.0
   - Support Thunderbird 57.0
-  - Support ReplyToList button
+  - Code Refactoring
   - Add features to meet the latest criteria for AMO ( addons.mozilla.org )
+
+- v 1.0.0
+  - Support ReplyToList button
 
 - v 0.3.0
   - Support Thunderbird 3.0
