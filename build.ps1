@@ -40,6 +40,12 @@ if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
 	"  copied."
 }
 ""
+"Get script options.."
+$mode = $args[0].ToLower()
+If ($mode -eq "-silent") {
+	exit
+}
+""
 "Opening Thunderbird add-on folder..."
 invoke-item "$a\Thunderbird\Profiles\$b\extensions"
 "  opened."
