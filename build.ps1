@@ -40,7 +40,7 @@ if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
 	"  copied."
 }
 ""
-"Get script options.."
+"Getting script options."
 $mode = $args[0].ToLower()
 If ($mode -eq "-silent") {
 	exit
