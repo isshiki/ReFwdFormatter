@@ -27,11 +27,14 @@ install.rdf                                 // meta-information about the extens
 
 chrome.manifest                             // list of packages and overlays
 
-chrome/
-chrome/content/
-chrome/content/options.xul                  // UI of Preferences
-chrome/content/overlay-messengercompose.xul // loading logic code
-chrome/content/overlay-messengercompose.js  // logic code
+chrome\
+chrome\content\
+chrome\content\options.xul                  // UI of Preferences
+chrome\content\overlay-messengercompose.xul // loading logic code
+chrome\content\overlay-messengercompose.js  // logic code
+chrome\locale\                              // Localization
+chrome\locale\en-US\options.dtd
+chrome\locale\ja\options.dtd
 
 defaults/
 defaults/preferences/
