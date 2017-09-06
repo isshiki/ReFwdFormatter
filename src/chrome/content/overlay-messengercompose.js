@@ -22,6 +22,7 @@ var refwdformatter = {
     if (fwd && (t == 3 || t == 4)) {
       // Foward (3: ForwardAsAttachment, 4: ForwardInline)
       document.getElementById("msgSubject").value = document.getElementById("msgSubject").value.replace(/^\[/, "").replace(/\]$/, "");
+
     } else if ((ret || reh || lit || lih) && (t == 1 || t == 2 || t == 6 || t == 7 || t == 8 || t == 13)) {
       // Reply (1: Reply, 2: ReplyAll, 6: ReplyToSender, 7: ReplyToGroup, 8: ReplyToSenderAndGroup, 13: ReplyToList)
       var b = document.getElementById("content-frame").contentDocument.body;
@@ -33,37 +34,34 @@ var refwdformatter = {
       /// Logic Demo: http://liveweave.com/7sJk2f
       /// [--- liveweave debug - START copy here ---] 
       if (h !== "<br>") {
+
         if ((ret || lit) && !msgHtml) {
           b.innerHTML = "<br>" + h.replace(/(<\/?span [^>]+>)&gt; /g, "$1").replace(/<br>&gt; /g, "<br>").replace(/<br>&gt; {2}/g, "<br>&nbsp;").replace(/<br>&gt;((&gt;)+) /g, "<br>$1&nbsp;").replace(/<br>&gt;((&gt;)+) {2}/g, "<br>$1&nbsp;").replace(/<br>&gt;((&gt;)+)<br>/g, "<br>$1&nbsp;<br>");
+
         } else if ((reh || lih) && msgHtml) {
-          var str = "",
-            epos = h.indexOf("<blockquote ", spos);
-          if (epos >= 0) {
-            str += h.substring(0, epos);
-            var spos = h.indexOf(">", epos);
-            if (spos > 0) {
-              spos += 1;
-              epos = h.lastIndexOf("</blockquote>");
-              if (epos > 0) {
-                str += h.substring(spos, epos);
-                spos = epos + 13;
-                str += h.substring(spos, h.length);
-              } else {
-                str = "";
+          if (b.hasChildNodes()) {
+            var children = b.childNodes;
+            for (var i = 0; i < children.length; ++i) {
+              if (children[i].tagName === "BLOCKQUOTE") {
+                var renamedNode = document.createElement('div');
+                for (var l = 0; l < children[i].attributes.length; ++l) {
+                  var a = children[i].attributes[l];
+                  renamedNode.setAttribute(a.nodeName, a.nodeValue);
+                }
+                while (children[i].firstChild) {
+                  renamedNode.appendChild(children[i].firstChild);
+                }
+                children[i].parentNode.replaceChild(renamedNode, children[i]);
+                break;
               }
-            } else {
-              str = "";
             }
-          } else {
-            str = "";
           }
-          if (str !== "") {
-            b.innerHTML = str;
-          }
+
         }
         refwdformatter.initCursorPosition();
       }
       /// [--- liveweave debug - END copy here ---] 
+    
     }
     window.setTimeout(function () {
       refwdformatter.editing = false;
