@@ -64,8 +64,8 @@ defaults/preferences/pref.js                // default value of Preferences
 This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE](LICENSE) file for details
 
 ## Reference information
-- [Application Versions :: Add-ons for Firefox](https://addons.mozilla.org/en-US/firefox/pages/appversions/)
+- [Application Versions :: Add-ons for Thunderbird](https://addons.mozilla.org/en-US/firefox/pages/appversions/)
 - [Mozilla Thunderbird Release Notes — Mozilla](https://www.mozilla.org/en-US/thunderbird/releases/)
-- [Is there a plan to support WebExtensions in Thunderbird? | Thunderbird Support Forum | Mozilla Support](https://support.mozilla.org/en-US/questions/1145386)
+- [Is there a plan to support WebExtensions in Thunderbird? | Thunderbird Support Forum | Mozilla Support](https://support.mozilla.org/en-US/questions/1145386) : The answer is 'No'.
 - [Building a Thunderbird extension 1: introduction - Mozilla | MDN](https://developer.mozilla.org/en-US/Add-ons/Thunderbird/Building_a_Thunderbird_extension)
 - [返信時の引用符を無くすThunderbirdアドオン「ReFwdFormatter」 - いっしきまさひこBLOG](http://blog.masahiko.info/entry/2009/05/01/055027)
