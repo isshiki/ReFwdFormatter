@@ -28,30 +28,79 @@ var refwdformatter = {
       var b = document.getElementById("content-frame").contentDocument.body;
       var h = b.innerHTML;
       ///// If you develop and test this add-on logic code, remove the following comment-out temporarily to get the whole html source of the current mail.
-      /////b.innerHTML = h.replace(/[&"'<>]/g, (m) => ({ "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" })[m]);
+      /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       /////return;
 
       /// Logic Demo: http://liveweave.com/7sJk2f
-      /// [--- liveweave debug - START copy here ---] 
+      /// [--- liveweave debug 1 - START copy here ---] 
       if (h !== "<br>") {
 
         if ((ret || lit) && !msgHtml) {
-          b.innerHTML = "<br>" + h.replace(/(<\/?span [^>]+>)&gt; /g, "$1").replace(/<br>&gt; /g, "<br>").replace(/<br>&gt; {2}/g, "<br>&nbsp;").replace(/<br>&gt;((&gt;)+) /g, "<br>$1&nbsp;").replace(/<br>&gt;((&gt;)+) {2}/g, "<br>$1&nbsp;").replace(/<br>&gt;((&gt;)+)<br>/g, "<br>$1&nbsp;<br>");
+
+          if (b.hasChildNodes()) {
+            var children = b.childNodes;
+            //console.log(children);
+
+            var isFirstChildren = true;
+            var brCounter = 2;  // There should be two <br> tags as FirstChildren in text-mail.
+            for (var i = 0; i < children.length; i++) {
+
+              if (brCounter <= 0) isFirstChildren = false;
+              var curChildNode = children[i];
+
+              if (curChildNode.nodeType === Node.TEXT_NODE) {
+                //console.log(curGChildNode); 
+                refwdformatter.removeQuoteMarksInTextMessage(curChildNode);  // Basically, this code-block won't be run.
+
+              } else {
+                //console.log(curChildNode.tagName);
+                switch (curChildNode.tagName) {
+
+                  case "BR":
+                    if (isFirstChildren) {
+                      brCounter--;
+                    }
+                    break;
+
+                  case "SPAN":
+                  case "DIV":
+                    if (curChildNode.hasChildNodes()) {
+                      var grandChildren = curChildNode.childNodes;
+                      //console.log(grandChildren);
+                      for (var n = 0; n < grandChildren.length; n++) {
+                        var curGChildNode = grandChildren[n];
+                        if (curGChildNode.nodeType === Node.TEXT_NODE) {
+                          //console.log(curGChildNode); 
+                          refwdformatter.removeQuoteMarksInTextMessage(curGChildNode);
+                        }
+                      }
+                    }
+                    break;
+                }
+              }
+            }
+
+            while (brCounter > 0) {
+              brCounter--;
+              var brNode = document.createElement('br');
+              b.insertBefore(brNode, b.firstChild); // add line-break just in case
+            }
+          }
 
         } else if ((reh || lih) && msgHtml) {
           if (b.hasChildNodes()) {
-            var children = b.childNodes;
-            for (var i = 0; i < children.length; ++i) {
-              if (children[i].tagName === "BLOCKQUOTE") {
+            var childNodes = b.childNodes;
+            for (var l = 0; l < childNodes.length; l++) {
+              if (childNodes[l].tagName === "BLOCKQUOTE") {
                 var renamedNode = document.createElement('div');
-                for (var l = 0; l < children[i].attributes.length; ++l) {
-                  var a = children[i].attributes[l];
+                for (var m = 0; m < childNodes[l].attributes.length; ++m) {
+                  var a = childNodes[l].attributes[m];
                   renamedNode.setAttribute(a.nodeName, a.nodeValue);
                 }
-                while (children[i].firstChild) {
-                  renamedNode.appendChild(children[i].firstChild);
+                while (childNodes[l].firstChild) {
+                  renamedNode.appendChild(childNodes[l].firstChild);
                 }
-                children[i].parentNode.replaceChild(renamedNode, children[i]);
+                childNodes[l].parentNode.replaceChild(renamedNode, childNodes[l]);
                 break;
               }
             }
@@ -60,12 +109,28 @@ var refwdformatter = {
         }
         refwdformatter.initCursorPosition();
       }
-      /// [--- liveweave debug - END copy here ---] 
+      /// [--- liveweave debug 1 - END copy here ---] 
     
     }
     window.setTimeout(function () {
       refwdformatter.editing = false;
     }, 700);
+  },
+
+  removeQuoteMarksInTextMessage: function (curNode) {
+    /// [--- liveweave debug 2 - START copy here ---] 
+    //console.log(curNode.previousSibling);
+    if ((curNode.previousSibling === null) ||
+        (curNode.previousSibling.tagName === "BR")) {
+      //console.log(curNode.data);
+      curNode.data = curNode.data.
+        replace(/^> {2}/g, " ").
+        replace(/^> /g, "").
+        replace(/^>((>)+) /g, "$1 ").
+        replace(/^>((>)+)$/g, "$1 ");
+      //console.log(curNode.data);
+    }
+    /// [--- liveweave debug 2 - END copy here ---] 
   },
 
   initCursorPosition: function () {
