@@ -64,6 +64,7 @@ var refwdformatter = {
 
                   case "SPAN":
                   case "DIV":
+                    if (isFirstChildren) isFirstChildren = false;
                     if (curChildNode.hasChildNodes()) {
                       var grandChildren = curChildNode.childNodes;
                       //console.log(grandChildren);
@@ -75,6 +76,9 @@ var refwdformatter = {
                         }
                       }
                     }
+                    break;
+                  default:
+                    if (isFirstChildren) isFirstChildren = false;
                     break;
                 }
               }
