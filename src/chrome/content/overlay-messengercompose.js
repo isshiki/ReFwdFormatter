@@ -31,7 +31,7 @@ var refwdformatter = {
       /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       /////return;
 
-      /// Logic Demo: http://liveweave.com/7sJk2f
+      /// Logic Demo: http://liveweave.com/qu8WRN
       /// [--- liveweave debug 1 - START copy here ---] 
       if (h !== "<br>") {
 
