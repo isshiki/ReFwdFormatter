@@ -31,7 +31,7 @@ var refwdformatter = {
       /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       /////return;
 
-      /// Logic Demo: http://liveweave.com/qu8WRN
+      /// Logic Demo: http://liveweave.com/zMIYUw
       /// [--- liveweave debug 1 - START copy here ---] 
       if (h !== "<br>") {
 
@@ -104,6 +104,9 @@ var refwdformatter = {
                 while (childNodes[l].firstChild) {
                   renamedNode.appendChild(childNodes[l].firstChild);
                 }
+                var blockquoteStyle = childNodes[l].currentStyle || window.getComputedStyle(childNodes[l]);
+                var divStyle = renamedNode.getAttribute("style");
+                renamedNode.setAttribute("style", "margin: " + blockquoteStyle.marginTop + " 0 " + blockquoteStyle.marginBottom + " 0;" + divStyle);                
                 childNodes[l].parentNode.replaceChild(renamedNode, childNodes[l]);
                 break;
               }
