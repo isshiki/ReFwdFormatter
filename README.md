@@ -44,6 +44,8 @@ defaults/preferences/pref.js                // default value of Preferences
 
 ## Version History
 
+- v 1.57.0.1
+
 - v 1.57.0
   - Support Thunderbird 57.0
   - Code Refactoring
