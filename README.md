@@ -44,6 +44,9 @@ defaults/preferences/pref.js                // default value of Preferences
 
 ## Version History
 
+- v 1.57.0.2
+  - [Bug-Fix] Fix the bugs: At the previous version, the contents of the quote email reply couldn't be highlighted nor edited
+
 - v 1.57.0.1
   - Add margin top and bottom in case of HTML mail
 
