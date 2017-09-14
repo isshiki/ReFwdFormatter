@@ -44,6 +44,9 @@ defaults/preferences/pref.js                // default value of Preferences
 
 ## Version History
 
+- v 1.57.0.3
+  - [Features especially for mac OS] Add two lines if those doesn't exist at the head of mail documents
+
 - v 1.57.0.2
   - [Bug-Fix] Fix the bugs: At the previous version, the contents of the quote email reply couldn't be highlighted nor edited
 

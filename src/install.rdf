@@ -6,7 +6,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>refwdformatter@masahiko.info</em:id>
     <em:name>ReFwdFormatter</em:name>
-    <em:version>1.57.0.2</em:version>
+    <em:version>1.57.0.3</em:version>
      <em:type>2</em:type>
     <em:description>Remove the "&gt;" prefix from quote. Remove "[" and "]" from the forward subject.</em:description>
     <em:creator>Masahiko Isshiki</em:creator>
