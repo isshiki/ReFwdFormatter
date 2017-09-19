@@ -19,7 +19,15 @@ var refwdformatter = {
     var t = gMsgCompose.type;
     var msgHtml = gMsgCompose.composeHTML;
 
-    if (fwd && (t == 3 || t == 4)) {
+    var version;  
+    if ("@mozilla.org/xre/app-info;1" in Components.classes) {
+      version = Components.classes["@mozilla.org/xre/app-info;1"].getService(Components.interfaces.nsIXULAppInfo).version;  
+    } else {
+      version = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch).getCharPref("app.version");  
+    }
+    var versionChecker = Components.classes["@mozilla.org/xpcom/version-comparator;1"].getService(Components.interfaces.nsIVersionComparator);
+
+    if (fwd && (t == 3 || t == 4) && (version && versionChecker && versionChecker.compare(version, "3.0") < 0)) {
       // Foward (3: ForwardAsAttachment, 4: ForwardInline)
       document.getElementById("msgSubject").value = document.getElementById("msgSubject").value.replace(/^\[/, "").replace(/\]$/, "");
 
