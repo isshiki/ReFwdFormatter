@@ -31,7 +31,7 @@ var refwdformatter = {
       /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       /////return;
 
-      /// Logic Demo: http://liveweave.com/KyYcrq
+      /// Logic Demo: http://liveweave.com/bgJNm3
       /// [--- liveweave debug 1 - START copy here ---]
       if (h !== "<br>") {
 
@@ -87,7 +87,7 @@ var refwdformatter = {
 
             }
 
-            addLineBreakJustInCase(brCounter);
+            refwdformatter.addLineBreakJustInCase(brCounter);
           }
 
         } else if ((reh || lih) && msgHtml) {
@@ -158,7 +158,7 @@ var refwdformatter = {
 
             }
 
-            addLineBreakJustInCase(brCount);
+            refwdformatter.addLineBreakJustInCase(brCount);
           }
 
         }
