@@ -31,7 +31,7 @@ var refwdformatter = {
       /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       /////return;
 
-      /// Logic Demo: http://liveweave.com/9Zlxhf
+      /// Logic Demo: http://liveweave.com/KyYcrq
       /// [--- liveweave debug 1 - START copy here ---]
       if (h !== "<br>") {
 
@@ -87,15 +87,7 @@ var refwdformatter = {
 
             }
 
-            if (brCounter > 0) {
-              var e1 = GetCurrentEditor();
-              e1.beginningOfDocument();
-              while (brCounter > 0) {
-                brCounter--;
-                e1.insertHTML("<br>"); // add line-break just in case
-              }
-            }
-
+            addLineBreakJustInCase(brCounter);
           }
 
         } else if ((reh || lih) && msgHtml) {
@@ -165,15 +157,8 @@ var refwdformatter = {
               if (removedBlockquote) break;
 
             }
-            if (brCount > 0) {
-              var e2 = GetCurrentEditor();
-              e2.beginningOfDocument();
-              while (brCount > 0) {
-                brCount--;
-                e2.insertHTML("<br>");
-              }
-            }
 
+            addLineBreakJustInCase(brCount);
           }
 
         }
@@ -203,6 +188,17 @@ var refwdformatter = {
       //console.log(curNode.data);
     }
     /// [--- liveweave debug 2 - END copy here ---]
+  },
+
+  addLineBreakJustInCase: function (brCounter) {
+    if (brCounter > 0) {
+      var e = GetCurrentEditor();
+      e.beginningOfDocument();
+      while (brCounter > 0) {
+        brCounter--;
+        e.insertHTML("<br>");
+      }
+    }
   },
 
   initCursorPosition: function () {
