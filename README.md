@@ -44,6 +44,9 @@ defaults/preferences/pref.js                // default value of Preferences
 
 ## Version History
 
+- v 1.58.0
+  - [Improved] Add version-check for the fwd feature
+
 - v 1.57.0.3
   - [Features especially for mac OS] Add two lines if those doesn't exist at the head of mail documents
 
