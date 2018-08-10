@@ -44,6 +44,11 @@ defaults/preferences/pref.js                // default value of Preferences
 
 ## Version History
 
+- v 1.65.0
+  - [Bug-Fix] Fixt this issue: [Options window is not displayed properly · Issue #1 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/1)
+  - Added `<?xml-stylesheet type="text/css" href="chrome://messenger/skin/preferences/preferences.css"?>` to options.xul file for Thuderbird 60+.
+Because CSS for the preference dialogs has moved from Mozilla core to Thunderbird. Add-ons that have an options/preferences dialog using `<prefwindow>` that requires this CSS need to add this code.
+
 - v 1.58.0
   - [Improved] Add version-check for the fwd feature
 

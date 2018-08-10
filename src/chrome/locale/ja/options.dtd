@@ -4,3 +4,5 @@
 <!ENTITY listtextLabel "リストへの返信時に、テキスト形式メールの引用からプレフィクス '&gt;' を除去します。">
 <!ENTITY listhtmlLabel "リストへの返信時に、HTML形式メールの引用からプレフィクス '|' を除去します。">
 <!ENTITY fwdsubjectLabel "転送時に、メールの件名から '[' と ']' を除去します。(version 1.x, 2.x のみ)">
+<!ENTITY saveLabel "保存">
+<!ENTITY cancelLabel "キャンセル">
