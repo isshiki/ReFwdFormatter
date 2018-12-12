@@ -47,7 +47,7 @@ var refwdformatter = {
       // b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       // return;
 
-      /// Logic Debug: http://liveweave.com/
+      /// Logic Debug: https://liveweave.com/qfF3oS
       if (h !== "<br>") {
 
         if ((ret || lit) && !msgHtml) {
@@ -110,28 +110,23 @@ var refwdformatter = {
           if (b.hasChildNodes()) {
             var childNodes = b.childNodes;
             //console.log(childNodes);
-
             var is1stChild = true;
             for (var l = 0; l < childNodes.length; l++) {
-
-              switch (childNodes[l].tagName) {
-
-                case "BLOCKQUOTE":
-                  is1stChild = false;
-                  // Replace the first <blockquote> tag with new <div> tag
-                  var newdiv = document.createElement("div");
-                  while (childNodes[l].firstChild) {
-                    newdiv.appendChild(childNodes[l].firstChild); // *Moves* the child
-                  }
-                  newdiv.setAttribute('class', 'replaced-blockquote');
-                  for (var index = childNodes[l].attributes.length - 1; index >= 0; --index) {
-                    newdiv.attributes.setNamedItem(childNodes[l].attributes[index].cloneNode());
-                  }
-                  childNodes[l].parentNode.replaceChild(newdiv, childNodes[l]);
-                  break;
+              if (childNodes[l].tagName == "BLOCKQUOTE") {
+                is1stChild = false;
+                // Replace the first <blockquote> tag with new <div> tag
+                var newdiv = document.createElement("div");
+                while (childNodes[l].firstChild) {
+                  newdiv.appendChild(childNodes[l].firstChild); // *Moves* the child
+                }
+                newdiv.setAttribute('class', 'replaced-blockquote');
+                for (var index = childNodes[l].attributes.length - 1; index >= 0; --index) {
+                  newdiv.attributes.setNamedItem(childNodes[l].attributes[index].cloneNode());
+                }
+                childNodes[l].parentNode.replaceChild(newdiv, childNodes[l]);
+                break;
               }
               if (!is1stChild) break;
-
             }
 
             var resethtml = b.innerHTML;

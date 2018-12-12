@@ -31,7 +31,7 @@ blockquote {
 </head>
 <body>
   
-  <p><a href="http://liveweave.com/bgJNm3">http://liveweave.com/bgJNm3</a></p>
+  <p><a href="https://liveweave.com/qfF3oS">https://liveweave.com/qfF3oS</a></p>
   
   <!-- Count up this count ' 1 '  to reload html souce. -->
     
@@ -147,22 +147,33 @@ blockquote {
           }
 
         } else if ((reh || lih) && msgHtml) {
+
           if (b.hasChildNodes()) {
             var childNodes = b.childNodes;
+            //console.log(childNodes);
+            var is1stChild = true;
             for (var l = 0; l < childNodes.length; l++) {
-              if (childNodes[l].tagName === "BLOCKQUOTE") {
-                var renamedNode = document.createElement('div');
-                for (var m = 0; m < childNodes[l].attributes.length; ++m) {
-                  var a = childNodes[l].attributes[m];
-                  renamedNode.setAttribute(a.nodeName, a.nodeValue);
-                }
+              if (childNodes[l].tagName == "BLOCKQUOTE") {
+                is1stChild = false;
+                // Replace the first <blockquote> tag with new <div> tag
+                var newdiv = document.createElement("div");
                 while (childNodes[l].firstChild) {
-                  renamedNode.appendChild(childNodes[l].firstChild);
+                  newdiv.appendChild(childNodes[l].firstChild); // *Moves* the child
                 }
-                childNodes[l].parentNode.replaceChild(renamedNode, childNodes[l]);
+                newdiv.setAttribute('class', 'replaced-blockquote');
+                for (var index = childNodes[l].attributes.length - 1; index >= 0; --index) {
+                  newdiv.attributes.setNamedItem(childNodes[l].attributes[index].cloneNode());
+                }
+                childNodes[l].parentNode.replaceChild(newdiv, childNodes[l]);
                 break;
               }
+              if (!is1stChild) break;
             }
+
+            var resethtml = b.innerHTML;
+            b.innerHTML = resethtml;  // To redraw. If there is not this code, the <div> tag width will shirink - I do not know why.
+
+            refwdformatter.addLineBreakJustInCase(brCount);
           }
 
         }
