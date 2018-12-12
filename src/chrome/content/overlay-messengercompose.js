@@ -27,6 +27,14 @@ var refwdformatter = {
     }
     var versionChecker = Components.classes["@mozilla.org/xpcom/version-comparator;1"].getService(Components.interfaces.nsIVersionComparator);
 
+    // Get the fwd HTML
+    // if (fwd) {
+    //   var b = document.getElementById("content-frame").contentDocument.body;
+    //   var h = b.innerHTML;
+    //   b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
+    //   return;
+    // }
+
     if (fwd && (t == 3 || t == 4) && (version && versionChecker && versionChecker.compare(version, "3.0") < 0)) {
       // Foward (3: ForwardAsAttachment, 4: ForwardInline)
       document.getElementById("msgSubject").value = document.getElementById("msgSubject").value.replace(/^\[/, "").replace(/\]$/, "");
@@ -35,12 +43,11 @@ var refwdformatter = {
       // Reply (1: Reply, 2: ReplyAll, 6: ReplyToSender, 7: ReplyToGroup, 8: ReplyToSenderAndGroup, 13: ReplyToList)
       var b = document.getElementById("content-frame").contentDocument.body;
       var h = b.innerHTML;
-      ///// If you develop and test this add-on logic code, remove the following comment-out temporarily to get the whole html source of the current mail.
-      /////b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
-      /////return;
+      ////// If you develop and test this add-on logic code, remove the following comment-out temporarily to get the whole html source of the current mail.
+      // b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
+      // return;
 
-      /// Logic Demo: http://liveweave.com/bgJNm3
-      /// [--- liveweave debug 1 - START copy here ---]
+      /// Logic Debug: http://liveweave.com/
       if (h !== "<br>") {
 
         if ((ret || lit) && !msgHtml) {
@@ -104,67 +111,31 @@ var refwdformatter = {
             var childNodes = b.childNodes;
             //console.log(childNodes);
 
-            var removedBlockquote = false;
             var is1stChild = true;
-            var brCount = 2;  // There should be two <br> tags as FirstChildren in html-mail.
             for (var l = 0; l < childNodes.length; l++) {
-
-              if (brCount <= 0) is1stChild = false;
 
               switch (childNodes[l].tagName) {
 
                 case "BLOCKQUOTE":
                   is1stChild = false;
-                  var existsNextNode = (l+1 < childNodes.length);
-                  var blockauoteNode = childNodes[l];
-
-                  // Move Blockquote children to parent
-                  while (blockauoteNode.lastChild) {
-                    if (existsNextNode) {
-                      b.insertBefore(blockauoteNode.lastChild, childNodes[l+1]);
-                    } else {
-                      b.appendChild(blockauoteNode.lastChild);
-                    }
+                  // Replace the first <blockquote> tag with new <div> tag
+                  var newdiv = document.createElement("div");
+                  while (childNodes[l].firstChild) {
+                    newdiv.appendChild(childNodes[l].firstChild); // *Moves* the child
                   }
-
-                  // Add spacer before first line
-                  var spacerNode = document.createElement('span');
-                  var blockquoteStyle = blockauoteNode.currentStyle || window.getComputedStyle(blockauoteNode);
-                  for (var m = 0; m < blockauoteNode.attributes.length; ++m) {
-                    var a = blockauoteNode.attributes[m];
-                    spacerNode.setAttribute(a.nodeName, a.nodeValue);
+                  newdiv.setAttribute('class', 'replaced-blockquote');
+                  for (var index = childNodes[l].attributes.length - 1; index >= 0; --index) {
+                    newdiv.attributes.setNamedItem(childNodes[l].attributes[index].cloneNode());
                   }
-                  spacerNode.setAttribute("style", "display: block; word-break: break-all; margin: " + blockquoteStyle.marginTop + " 0 0 0; padding: 0; line-height:0");
-                  if (existsNextNode) {
-                    b.insertBefore(spacerNode, blockauoteNode);
-                  } else {
-                    b.appendChild(spacerNode);
-                  }
-
-                  // Remove Blockquote itself
-                  b.removeChild(blockauoteNode);
-                  removedBlockquote = true;
+                  childNodes[l].parentNode.replaceChild(newdiv, childNodes[l]);
                   break;
-
-                case "P":
-                  if (is1stChild) {
-                    if (childNodes[l].children.length === 1 && childNodes[l].children[0].tagName === "BR") brCount--;
-                    else is1stChild = false;
-                  }
-                  break;
-
-                case "BR":
-                  if (is1stChild) brCount--;
-                  break;
-
-                default:
-                  if (is1stChild) is1stChild = false;
-                  break;
-
               }
-              if (removedBlockquote) break;
+              if (!is1stChild) break;
 
             }
+
+            var resethtml = b.innerHTML;
+            b.innerHTML = resethtml;  // To redraw. If there is not this code, the <div> tag width will shirink - I do not know why.
 
             refwdformatter.addLineBreakJustInCase(brCount);
           }
@@ -174,7 +145,6 @@ var refwdformatter = {
         refwdformatter.initCursorPosition();
 
       }
-      /// [--- liveweave debug 1 - END copy here ---]
 
     }
     window.setTimeout(function () {

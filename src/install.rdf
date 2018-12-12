@@ -6,7 +6,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>refwdformatter@masahiko.info</em:id>
     <em:name>ReFwdFormatter</em:name>
-    <em:version>1.65.0</em:version>
+    <em:version>1.65.1</em:version>
      <em:type>2</em:type>
     <em:description>Remove the "&gt;" prefix from quote. Remove "[" and "]" from the forward subject.</em:description>
     <em:creator>Masahiko Isshiki</em:creator>
@@ -16,7 +16,7 @@
     <em:targetApplication>
       <Description>
         <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
-        <em:minVersion>1.0</em:minVersion>
+        <em:minVersion>24.0</em:minVersion>
         <em:maxVersion>65.0</em:maxVersion>
         <!-- https://addons.thunderbird.net/ja/thunderbird/pages/appversions/ -->
       </Description>
