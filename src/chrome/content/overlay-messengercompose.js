@@ -41,11 +41,17 @@ var refwdformatter = {
 
     } else if ((ret || reh || lit || lih) && (t == 1 || t == 2 || t == 6 || t == 7 || t == 8 || t == 13)) {
       // Reply (1: Reply, 2: ReplyAll, 6: ReplyToSender, 7: ReplyToGroup, 8: ReplyToSenderAndGroup, 13: ReplyToList)
-      var b = document.getElementById("content-frame").contentDocument.body;
+
+      //var b = document.getElementById("content-frame").contentDocument.body;
+      var e = GetCurrentEditor() 
+      var b = e.rootElement; 
+
       var h = b.innerHTML;
       ////// If you develop and test this add-on logic code, remove the following comment-out temporarily to get the whole html source of the current mail.
       // b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
       // return;
+
+      var brCounter = 2;  // There should be two <br> tags as FirstChildren in a mail.
 
       /// Logic Debug: https://liveweave.com/qfF3oS
       if (h !== "<br>") {
@@ -57,7 +63,6 @@ var refwdformatter = {
             //console.log(children);
 
             var isFirstChildren = true;
-            var brCounter = 2;  // There should be two <br> tags as FirstChildren in text-mail.
             for (var i = 0; i < children.length; i++) {
 
               if (brCounter <= 0) isFirstChildren = false;
@@ -129,10 +134,15 @@ var refwdformatter = {
               if (!is1stChild) break;
             }
 
+            // To redraw. If there aren't these code, the width of the top <div> tag will shirink - I do not know why. It may be a Thunderbird bug.
             var resethtml = b.innerHTML;
-            b.innerHTML = resethtml;  // To redraw. If there is not this code, the <div> tag width will shirink - I do not know why.
+            while (b.hasChildNodes()) b.removeChild(b.firstChild);
+            e.beginningOfDocument();
+            e.beginTransaction();
+            e.insertHTML(resethtml);
+            e.endTransaction();
 
-            refwdformatter.addLineBreakJustInCase(brCount);
+            refwdformatter.addLineBreakJustInCase(brCounter);
           }
 
         }
@@ -173,7 +183,7 @@ var refwdformatter = {
       }
     }
   },
-
+ 
   initCursorPosition: function () {
     var e = GetCurrentEditor();
     e.beginningOfDocument();
