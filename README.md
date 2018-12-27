@@ -45,12 +45,12 @@ defaults/preferences/pref.js                // default value of Preferences
 ## Version History
 
 - v 1.65.1
-  - [Bug-Fix] Fixt this issue: [Text moved to the bottom of the communication · Issue #2 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/2)
-  - Completely Rebuilt the logic for HTML mail to Reply.
+  - [Bug-Fix] Fixed this issue: [Text moved to the bottom of the communication · Issue #2 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/2)
+  - Completely rebuilt the logic for HTML mail to Reply.
   - Changed the support start version from 1.0 to 24.0.
 
 - v 1.65.0
-  - [Bug-Fix] Fixt this issue: [Options window is not displayed properly · Issue #1 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/1)
+  - [Bug-Fix] Fixed this issue: [Options window is not displayed properly · Issue #1 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/1)
   - Added `<?xml-stylesheet type="text/css" href="chrome://messenger/skin/preferences/preferences.css"?>` to options.xul file for Thuderbird 60+.
 Because CSS for the preference dialogs has moved from Mozilla core to Thunderbird. Add-ons that have an options/preferences dialog using `<prefwindow>` that requires this CSS need to add this code.
 
