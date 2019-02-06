@@ -86,7 +86,7 @@ Because CSS for the preference dialogs has moved from Mozilla core to Thunderbir
 This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE](LICENSE) file for details
 
 ## Reference information
-- [Application Versions :: Add-ons for Thunderbird](https://addons.mozilla.org/en-US/firefox/pages/appversions/)
+- [Application Versions :: Add-ons for Thunderbird](https://addons.thunderbird.net/en-US/thunderbird/pages/appversions/)
 - [Mozilla Thunderbird Release Notes — Mozilla](https://www.mozilla.org/en-US/thunderbird/releases/)
 - [Is there a plan to support WebExtensions in Thunderbird? | Thunderbird Support Forum | Mozilla Support](https://support.mozilla.org/en-US/questions/1145386) : The answer is 'No'.
 - [Building a Thunderbird extension 1: introduction - Mozilla | MDN](https://developer.mozilla.org/en-US/Add-ons/Thunderbird/Building_a_Thunderbird_extension)
