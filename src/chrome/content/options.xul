@@ -2,12 +2,13 @@
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 <?xml-stylesheet href="chrome://messenger/skin/preferences/preferences.css" type="text/css"?>
 <!DOCTYPE window SYSTEM "chrome://refwdformatter/locale/options.dtd">
-<prefwindow
+<dialog
   id="prefs" title="&prefwindowLabel;"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
   buttons="accept,cancel"
   buttonlabelaccept="&saveLabel;"
-  buttonlabelcancel="&cancelLabel;">
+  buttonlabelcancel="&cancelLabel;"
+  style="background-color: aliceblue;">
 
   <prefpane id="pref.general">
     <preferences>
@@ -17,20 +18,31 @@
       <preference id="listhtml" name="extensions.refwdformatter.listhtml.on" type="bool" />
       <preference id="fwdsubject" name="extensions.refwdformatter.fwdsubject.on" type="bool" />
     </preferences>
+    <groupbox flex = "1" orient = "center">
     <hbox align="center">
       <checkbox id="check1" preference="replytext" label="&replytextLabel;"/>
+      <spacer/>
     </hbox>
+    <spacer/>
     <hbox align="center">
       <checkbox id="check2" preference="replyhtml" label="&replyhtmlLabel;"/>
+      <spacer/>
     </hbox>
+    <spacer/>
     <hbox align="center">
       <checkbox id="check3" preference="listtext" label="&listtextLabel;"/>
+      <spacer/>
     </hbox>
+    <spacer/>
     <hbox align="center">
       <checkbox id="check4" preference="listhtml" label="&listhtmlLabel;"/>
+      <spacer/>
     </hbox>
+    <spacer/>
     <hbox align="center">
       <checkbox id="check5" preference="fwdsubject" label="&fwdsubjectLabel;"/>
+      <spacer/>
     </hbox>
+    </groupbox>
   </prefpane>
-</prefwindow>
+</dialog>
