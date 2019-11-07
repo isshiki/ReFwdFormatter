@@ -2,9 +2,7 @@
 
 Thunderbird Add-on.
 
-  To Remove the "&gt;" prefix from quote. 
-
-  To Remove "[" and "]" from the forward subject.
+  To Remove the "&gt;" prefix from quote.
 
 ## Installing
 
@@ -23,26 +21,29 @@ Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to bu
 ### src folder's content
 
 ```
-install.rdf                                 // meta-information about the extension
+manifest.json                               // meta-information about the extension
 
 chrome.manifest                             // list of packages and overlays
 
 chrome\
 chrome\content\
 chrome\content\options.xul                  // UI of Preferences
+chrome\content\options.js                   // Preferences code
 chrome\content\overlay-messengercompose.xul // loading logic code
 chrome\content\overlay-messengercompose.js  // logic code
 chrome\locale\                              // Localization
 chrome\locale\en-US\options.dtd
 chrome\locale\ja\options.dtd
 
-defaults/
-defaults/preferences/
-defaults/preferences/pref.js                // default value of Preferences
-
+icons\*                                     // the extension's icons
 ```
 
 ## Version History
+
+- v 2.68.0
+  - Support for Thunderbird version from 68.0 to *.
+  - Added extension's icon
+  - Got rid of the old functionality to remove "[" and "]" from the forward subject.
 
 - v 1.65.1
   - [Bug-Fix] Fixed this issue: [Text moved to the bottom of the communication · Issue #2 · isshiki/ReFwdFormatter](https://github.com/isshiki/ReFwdFormatter/issues/2)

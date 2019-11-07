@@ -10,11 +10,10 @@ var refwdformatter = {
     refwdformatter.editing = true;
 
     var prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService).getBranch("extensions.refwdformatter.");
-    var ret = prefs.getBoolPref("replytext.on");
-    var reh = prefs.getBoolPref("replyhtml.on");
-    var lit = prefs.getBoolPref("listtext.on");
-    var lih = prefs.getBoolPref("listhtml.on");
-    var fwd = prefs.getBoolPref("fwdsubject.on");
+    var ret = true; try { ret = (prefs.getBoolPref("replytext.on") !== false); } catch(error) { prefs.setBoolPref("replytext.on", true); }
+    var reh = true; try { reh = (prefs.getBoolPref("replyhtml.on") !== false); } catch(error) { prefs.setBoolPref("replyhtml.on", true); }
+    var lit = true; try { lit = (prefs.getBoolPref("listtext.on") !== false); } catch(error) { prefs.setBoolPref("listtext.on", true); }
+    var lih = true; try { lih = (prefs.getBoolPref("listhtml.on") !== false); } catch(error) { prefs.setBoolPref("listhtml.on", true); }
 
     var t = gMsgCompose.type;
     var msgHtml = gMsgCompose.composeHTML;
@@ -27,19 +26,7 @@ var refwdformatter = {
     }
     var versionChecker = Components.classes["@mozilla.org/xpcom/version-comparator;1"].getService(Components.interfaces.nsIVersionComparator);
 
-    // Get the fwd HTML
-    // if (fwd) {
-    //   var b = document.getElementById("content-frame").contentDocument.body;
-    //   var h = b.innerHTML;
-    //   b.innerHTML = h.replace(/[&"'<>]/g, function(m) { return { "&": "&amp;", '"': "&quot;", "'": "&#39;", "<": "&lt;", ">": "&gt;" }[m]; });
-    //   return;
-    // }
-
-    if (fwd && (t == 3 || t == 4) && (version && versionChecker && versionChecker.compare(version, "3.0") < 0)) {
-      // Foward (3: ForwardAsAttachment, 4: ForwardInline)
-      document.getElementById("msgSubject").value = document.getElementById("msgSubject").value.replace(/^\[/, "").replace(/\]$/, "");
-
-    } else if ((ret || reh || lit || lih) && (t == 1 || t == 2 || t == 6 || t == 7 || t == 8 || t == 13)) {
+    if ((ret || reh || lit || lih) && (t == 1 || t == 2 || t == 6 || t == 7 || t == 8 || t == 13)) {
       // Reply (1: Reply, 2: ReplyAll, 6: ReplyToSender, 7: ReplyToGroup, 8: ReplyToSenderAndGroup, 13: ReplyToList)
 
       //var b = document.getElementById("content-frame").contentDocument.body;

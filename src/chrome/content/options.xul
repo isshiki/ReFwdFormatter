@@ -1,48 +1,41 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
 <?xml-stylesheet href="chrome://messenger/skin/preferences/preferences.css" type="text/css"?>
-<!DOCTYPE window SYSTEM "chrome://refwdformatter/locale/options.dtd">
+<!DOCTYPE dialog SYSTEM "chrome://refwdformatter/locale/options.dtd">
+
 <dialog
   id="prefs" title="&prefwindowLabel;"
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  onload="loadPrefs();"
   buttons="accept,cancel"
   buttonlabelaccept="&saveLabel;"
   buttonlabelcancel="&cancelLabel;"
   style="background-color: aliceblue;">
 
-  <prefpane id="pref.general">
-    <preferences>
-      <preference id="replytext" name="extensions.refwdformatter.replytext.on" type="bool" />
-      <preference id="replyhtml" name="extensions.refwdformatter.replyhtml.on" type="bool" />
-      <preference id="listtext" name="extensions.refwdformatter.listtext.on" type="bool" />
-      <preference id="listhtml" name="extensions.refwdformatter.listhtml.on" type="bool" />
-      <preference id="fwdsubject" name="extensions.refwdformatter.fwdsubject.on" type="bool" />
-    </preferences>
-    <groupbox flex = "1" orient = "center">
+  <script src="chrome://refwdformatter/content/options.js" type="application/x-javascript"/>
+
+  <groupbox flex = "1" orient = "center">
+    <spacer/>
     <hbox align="center">
-      <checkbox id="check1" preference="replytext" label="&replytextLabel;"/>
+      <checkbox id="replytext" label="&replytextLabel;" />
       <spacer/>
     </hbox>
     <spacer/>
     <hbox align="center">
-      <checkbox id="check2" preference="replyhtml" label="&replyhtmlLabel;"/>
+      <checkbox id="replyhtml" label="&replyhtmlLabel;"/>
       <spacer/>
     </hbox>
     <spacer/>
     <hbox align="center">
-      <checkbox id="check3" preference="listtext" label="&listtextLabel;"/>
+      <checkbox id="listtext" label="&listtextLabel;"/>
       <spacer/>
     </hbox>
     <spacer/>
     <hbox align="center">
-      <checkbox id="check4" preference="listhtml" label="&listhtmlLabel;"/>
+      <checkbox id="listhtml" label="&listhtmlLabel;"/>
       <spacer/>
     </hbox>
     <spacer/>
-    <hbox align="center">
-      <checkbox id="check5" preference="fwdsubject" label="&fwdsubjectLabel;"/>
-      <spacer/>
-    </hbox>
-    </groupbox>
-  </prefpane>
+  </groupbox>
+
 </dialog>
