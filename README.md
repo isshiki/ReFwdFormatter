@@ -40,10 +40,10 @@ src/
 
 - v 2.78.0
   - Support for Thunderbird version from 78.0 to *.
-  - Support New MailExtension instead of deprecated Legacy WebExtension.
-  - All the code has been remodeled to support MailExtensions. But New MailExtension's features are significantly limited.
+  - Support New MailExtension instead of deprecated Legacy WebExtension and XUL.
+  - All the code has been remodeled to support MailExtension. But New MailExtension's features are significantly limited.
   - In text-email-reply, the input cursor is at the bottom of the editor. Because there is no way to manipulate the input cursor, the input cursor couldn't be moved from add-on.
-  - Add a new feature: email-reply header template, which is set off by default. You can configure reply header like Outlook-style for example.
+  - Deleted the feature to select list-reply and/or normal-reply. Because there is no way to detect reply-mode.
 
 - v 2.68.0
   - Support for Thunderbird version from 68.0 to *.
