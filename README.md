@@ -25,11 +25,11 @@ src/
 ├── manifest.json            // Meta-information about this extension
 ├── background-script.js     // Main logic code
 ├── prefs/                   // Preferences
-｜  ├── options.html         //   -  UI of Options
-｜  └── options.js           //   -  Options code
+│  ├── options.html         //   -  UI of Options
+│  └── options.js           //   -  Options code
 ├── _locales/                 // Localization
-｜  ├── en/messages.json     //   -  English
-｜  └── ja/messages.json     //   -  Japanese
+│  ├── en/messages.json     //   -  English
+│  └── ja/messages.json     //   -  Japanese
 └── icons/                   // This extension's Icons
     ├── refwd.png            //   -  64 x 64 px icon
     ├── refwd-32px.png       //   -  32 x 32 px icon
