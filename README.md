@@ -43,7 +43,7 @@ src/
   - Support New MailExtension instead of deprecated Legacy WebExtension and XUL.
   - All the code has been remodeled to support MailExtension. But New MailExtension's features are significantly limited.
   - In text-email-reply, the input cursor is at the bottom of the editor. Because there is no way to manipulate the input cursor, the input cursor couldn't be moved from add-on.
-  - Deleted the feature to select list-reply and/or normal-reply. Because there is no way to detect reply-mode.
+  - Deleted the feature to set list-reply and/or normal-reply option. Because there is no way to detect reply-mode.
 
 - v 2.68.0
   - Support for Thunderbird version from 68.0 to *.
