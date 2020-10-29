@@ -21,24 +21,29 @@ Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to bu
 ### src folder's content
 
 ```
-manifest.json                               // meta-information about the extension
-
-chrome.manifest                             // list of packages and overlays
-
-chrome\
-chrome\content\
-chrome\content\options.xul                  // UI of Preferences
-chrome\content\options.js                   // Preferences code
-chrome\content\overlay-messengercompose.xul // loading logic code
-chrome\content\overlay-messengercompose.js  // logic code
-chrome\locale\                              // Localization
-chrome\locale\en-US\options.dtd
-chrome\locale\ja\options.dtd
-
-icons\*                                     // the extension's icons
+src/
+├── manifest.json            // Meta-information about this extension
+├── background-script.js     // Main logic code
+├── prefs/                   // Preferences
+｜  ├── options.html         //   -  UI of Options
+｜  └── options.js           //   -  Options code
+├── _locales/                 // Localization
+｜  ├── en/messages.json     //   -  English
+｜  └── ja/messages.json     //   -  Japanese
+└── icons/                   // This extension's Icons
+    ├── refwd.png            //   -  64 x 64 px icon
+    ├── refwd-32px.png       //   -  32 x 32 px icon
+    └── refwd-16px.png       //   -  16 x 16 px icon
 ```
 
 ## Version History
+
+- v 2.78.0
+  - Support for Thunderbird version from 78.0 to *.
+  - Support New MailExtension instead of deprecated Legacy WebExtension.
+  - All the code has been remodeled to support MailExtensions. But New MailExtension's features are significantly limited.
+  - In text-email-reply, the input cursor is at the bottom of the editor. Because there is no way to manipulate the input cursor, the input cursor couldn't be moved from add-on.
+  - Add a new feature: email-reply header template, which is set off by default. You can configure reply header like Outlook-style for example.
 
 - v 2.68.0
   - Support for Thunderbird version from 68.0 to *.
@@ -89,6 +94,6 @@ This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE
 ## Reference information
 - [Application Versions :: Add-ons for Thunderbird](https://addons.thunderbird.net/en-US/thunderbird/pages/appversions/)
 - [Mozilla Thunderbird Release Notes — Mozilla](https://www.mozilla.org/en-US/thunderbird/releases/)
-- [Is there a plan to support WebExtensions in Thunderbird? | Thunderbird Support Forum | Mozilla Support](https://support.mozilla.org/en-US/questions/1145386) : The answer is 'No'.
-- [Building a Thunderbird extension 1: introduction - Mozilla | MDN](https://developer.mozilla.org/en-US/Add-ons/Thunderbird/Building_a_Thunderbird_extension)
+- [A Guide to MailExtensions - Thunderbird](https://developer.thunderbird.net/add-ons/mailextensions)
+- Same problem and workaround: [TypeError: prin.URI is null](https://a-tak.com/blog/2020/07/autobucket-auto-jadge/)
 - [返信時の引用符を無くすThunderbirdアドオン「ReFwdFormatter」 - いっしきまさひこBLOG](http://blog.masahiko.info/entry/2009/05/01/055027)
