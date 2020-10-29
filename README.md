@@ -27,7 +27,7 @@ src/
 ├── prefs/                   // Preferences
 │  ├── options.html         //   -  UI of Options
 │  └── options.js           //   -  Options code
-├── _locales/                 // Localization
+├── _locales/                // Localization
 │  ├── en/messages.json     //   -  English
 │  └── ja/messages.json     //   -  Japanese
 └── icons/                   // This extension's Icons
