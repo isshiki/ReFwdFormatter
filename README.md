@@ -38,6 +38,11 @@ src/
 
 ## Version History
 
+- v 2.128.0
+  - Support for Thunderbird version from 128.0 to *.
+  - Removed usage of `Services.jsm` to ensure compatibility with Thunderbird 115. `Services` object is now accessed via `globalThis.Services`. For more details, see the [Thunderbird update guide](https://developer.thunderbird.net/add-ons/updating/tb115/adapt-to-changes-in-thunderbird-103-115#services.jsm).
+  - Fixed compatibility issue when ReFwdFormatter is installed with SmartTemplate4 or EnhancedReplyHeaders.
+
 - v 2.78.0
   - Support for Thunderbird version from 78.0 to *.
   - Support New MailExtension instead of deprecated Legacy WebExtension and XUL.
