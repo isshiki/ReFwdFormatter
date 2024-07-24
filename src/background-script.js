@@ -58,6 +58,13 @@ var refwdformatter = {
     };
 
     let indexCite = details.body.indexOf("class=\"moz-cite-prefix\"");
+    if (indexCite === -1) { // fallback in case SmartTemplates is used:
+      indexCite = details.body.indexOf("id=\"smartTemplate4-quoteHeader\"");
+    }
+    if (indexCite === -1) { // fallback in case EnhancedReplyHeaders is used:
+      indexCite = details.body.indexOf("class=\"ehr-email-headers-table\"");
+    }
+
     let indexFwd = details.body.indexOf("class=\"moz-forward-container\"");
     if (indexCite === -1) {
       //console.log("Not-Reply Type");
