@@ -2,16 +2,15 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-  "version": "2.138.0",
+  "version": "2.136.0",
   "author": "Masahiko Isshiki",
   "developer": {
 	  "name": "Masahiko Isshiki",
     "url": "https://github.com/isshiki/ReFwdFormatter"
 	},
-  "applications": {
+  "browser_specific_settings": {
     "gecko": {
-      "id": "refwdformatter@masahiko.info",
-      "strict_max_version": "138.*"
+      "id": "refwdformatter@masahiko.info"
     }
   },
   "background": {

@@ -38,7 +38,7 @@ src/
 
 ## Version History
 
-- v 2.138.0
+- v 2.136.0
   - Support for Thunderbird 135 and later.
   - Fixed compatibility issue reported in Thunderbird 135 by simplifying settings management and removing outdated dependencies.
 
