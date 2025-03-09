@@ -38,6 +38,10 @@ src/
 
 ## Version History
 
+- v 2.138.0
+  - Support for Thunderbird 135 and later.
+  - Fixed compatibility issue reported in Thunderbird 135 by simplifying settings management and removing outdated dependencies.
+
 - v 2.128.0
   - Support for Thunderbird version 128.*.
   - Removed usage of `Services.jsm` to ensure compatibility with Thunderbird 115. `Services` object is now accessed via `globalThis.Services`. For more details, see the [Thunderbird update guide](https://developer.thunderbird.net/add-ons/updating/tb115/adapt-to-changes-in-thunderbird-103-115#services.jsm).

@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-  "version": "2.128.0",
+  "version": "2.138.0",
   "author": "Masahiko Isshiki",
   "developer": {
 	  "name": "Masahiko Isshiki",
@@ -11,7 +11,7 @@
   "applications": {
     "gecko": {
       "id": "refwdformatter@masahiko.info",
-      "strict_max_version": "128.*"
+      "strict_max_version": "138.*"
     }
   },
   "background": {
@@ -23,16 +23,6 @@
     "open_in_tab": true
   },
   "permissions": ["storage", "compose"],
-  "experiment_apis": {
-    "myapi": {
-      "schema": "apis/schema.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["myapi"]],
-        "script": "apis/implementation.js"
-      }
-    }
-  },
   "default_locale": "en",
   "icons": {
     "64": "icons/refwd.png",

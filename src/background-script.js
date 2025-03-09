@@ -24,11 +24,7 @@ var refwdformatter = {
   
     if (currentMigration < 1) {
       for (const prefName of Object.getOwnPropertyNames(refwdformatter.kPrefDefaults)) {
-        let oldName = prefName.replace("_on", ".on");
-        prefs[prefName] = await browser.myapi.getPref(`extensions.refwdformatter.${oldName}`);
-        if (prefs[prefName] === undefined) {
-          prefs[prefName] = refwdformatter.kPrefDefaults[prefName];
-        }
+        prefs[prefName] = refwdformatter.kPrefDefaults[prefName];
       }
     }
 

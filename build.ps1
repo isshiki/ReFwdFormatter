@@ -30,7 +30,8 @@ If (Test-Path bin\$zip){
 ""
 "Override-Copy 'ReFwdFormatter' Program to local system"
 $a = $env:APPDATA
-$b = (Get-ChildItem $a\Thunderbird\Profiles).Name
+$b = (Get-ChildItem $a\Thunderbird\Profiles).Name | Select-Object -First 1
+
 if ( [string]::IsNullOrEmpty($a) -And [string]::IsNullOrEmpty($b) ) {
 	"  cloudn't detect your Thunderbird Profiles. Please install Thunderbird app and ReFwdFormatter add-on on Windows. Then, check the following the folder and file: "
 	"    $a\Thunderbird\Profiles\$b\extensions\$addon"
