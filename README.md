@@ -14,13 +14,17 @@ To install this add-on, Please visit the following page.
 
 You can customize this add-on behavior from the [Setting] button for this add-on on [Thunderbird Add-on Manager].
 
+## IME workaround (Thunderbird 144+)
+
+- If IME will not type in a reply, click the Subject once and then click back in the Body to continue typing (known workaround until Thunderbird fixes the timing issue).
+
 ## Developing Or Fixing some issues
 
 Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to build and test this add-on".
 
 ### src folder's content
 
-```
+```text
 src/
 ├── manifest.json            // Meta-information about this extension
 ├── background-script.js     // Main logic code
@@ -37,6 +41,10 @@ src/
 ```
 
 ## Version History
+
+- v 2.144.0
+  - Timing guard tightened: staggered retries (250/400/600/800 ms) and single-pass processing to avoid duplicate runs.
+  - Cleanup: minimal code refresh while awaiting Thunderbird-side fix (expected 147+ event timing).
 
 - v 2.136.0
   - Support for Thunderbird 135 and later.
@@ -101,6 +109,7 @@ Because CSS for the preference dialogs has moved from Mozilla core to Thunderbir
 This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE](LICENSE) file for details
 
 ## Reference information
+
 - [Application Versions :: Add-ons for Thunderbird](https://addons.thunderbird.net/en-US/thunderbird/pages/appversions/)
 - [Mozilla Thunderbird Release Notes — Mozilla](https://www.mozilla.org/en-US/thunderbird/releases/)
 - [A Guide to MailExtensions - Thunderbird](https://developer.thunderbird.net/add-ons/mailextensions)

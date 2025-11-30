@@ -73,6 +73,9 @@ async function main() {
     elm.appendChild(document.createTextNode(" " + browser.i18n.getMessage(key)));
   }
 
+  const imeTip = document.getElementById("imeTip");
+  imeTip.appendChild(document.createTextNode(browser.i18n.getMessage("imeWorkaroundTip")));
+
   const prefs = await loadPrefs();
   //console.log({ prefs });
 

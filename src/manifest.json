@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-  "version": "2.136.0",
+  "version": "2.144.0",
   "author": "Masahiko Isshiki",
   "developer": {
 	  "name": "Masahiko Isshiki",

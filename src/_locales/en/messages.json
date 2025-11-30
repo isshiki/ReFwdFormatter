@@ -20,6 +20,9 @@
   "btnCancelLabel": {
     "message": "　Cancel　"
   },
+  "imeWorkaroundTip": {
+    "message": "On Thunderbird 144+, if IME won’t type, click Subject once and then click back in the body to type with IME (known workaround)."
+  },
   "msgSaved": {
     "message": "The option settings were saved at "
   },

@@ -20,6 +20,9 @@
   "btnCancelLabel": {
     "message": "　キャンセル　"
   },
+  "imeWorkaroundTip": {
+    "message": "Thunderbird 144以降でIMEが動かない場合は、件名欄を一度クリックしてから本文をクリックするとIMEで入力できます（既知の回避策）。"
+  },
   "msgSaved": {
     "message": "オプション設定を保存しました："
   },
