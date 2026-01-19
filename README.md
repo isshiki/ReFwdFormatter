@@ -18,6 +18,10 @@ You can customize this add-on behavior from the [Setting] button for this add-on
 
 Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to build and test this add-on".
 
+## IME workaround (Thunderbird 143+)
+
+If IME input does not work right after reply formatting, click the Subject field once and then click back into the message body. This re-enables IME input in the body.
+
 ### src folder's content
 
 ```text
@@ -42,7 +46,6 @@ src/
 - - Support for Thunderbird 143 and later.
   - Added caret/cursor positioning after reply formatting (top/bottom/select quote).
   - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
-  - Addressed IME-related compose timing issues as a side effect of updated compose handling.
   - Internal refactor: compose script extracted to file.
 
 - v 2.136.0
