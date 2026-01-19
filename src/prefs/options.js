@@ -28,7 +28,13 @@ async function loadPrefs() {
   if (currentMigration < 1) {
     for (const prefName of Object.getOwnPropertyNames(kPrefDefaults)) {
       let oldName = prefName.replace("_on", ".on");
-      prefs[prefName] = await browser.myapi.getPref(`extensions.refwdformatter.${oldName}`);
+      if (browser.myapi && browser.myapi.getPref) {
+        try {
+          prefs[prefName] = await browser.myapi.getPref(`extensions.refwdformatter.${oldName}`);
+        } catch (e) {
+          console.warn('[ReFwdFormatter] Failed to read legacy pref:', oldName, e);
+        }
+      }
       if (prefs[prefName] === undefined) {
         prefs[prefName] = kPrefDefaults[prefName];
       }

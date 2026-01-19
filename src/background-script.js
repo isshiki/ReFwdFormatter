@@ -281,11 +281,30 @@ var refwdformatter = {
       const autoQuote = await refwdformatter.getIdentityPref(identityId, 'auto_quote', true);
       const replyOnTop = await refwdformatter.getIdentityPref(identityId, 'reply_on_top', 1);
       const sigBottom = await refwdformatter.getIdentityPref(identityId, 'sig_bottom', true);
-      return refwdformatter.determineCaretBehavior(autoQuote, replyOnTop, sigBottom);
+      const behavior = refwdformatter.determineCaretBehavior(autoQuote, replyOnTop, sigBottom);
+      behavior.quoteHeaderText = refwdformatter.getQuoteHeaderText(details);
+      return behavior;
     } catch (error) {
       console.error('[ReFwdFormatter] Failed to determine caret behavior:', error);
       return refwdformatter.determineCaretBehavior(true, 1, true);
     }
+  },
+
+  getQuoteHeaderText: function(details) {
+    try {
+      if (!details || !details.body) {
+        return null;
+      }
+      const doc = new DOMParser().parseFromString(details.body, 'text/html');
+      const citePrefix = doc.querySelector('.moz-cite-prefix');
+      if (citePrefix && citePrefix.textContent) {
+        const text = citePrefix.textContent.trim();
+        return text.length ? text : null;
+      }
+    } catch (error) {
+      console.warn('[ReFwdFormatter] Failed to parse quote header text:', error);
+    }
+    return null;
   },
 
   // Unregister existing caret movement script
@@ -308,145 +327,15 @@ var refwdformatter = {
     await refwdformatter.unregisterCaretMovementScript();
 
     try {
-      // Load user preference for caret position
-      const prefs = await refwdformatter.loadPrefs();
       refwdformatter.caretScriptId = await browser.composeScripts.register({
         js: [{
-          code: `
-            (function() {
-                async function getCaretBehavior() {
-                  try {
-                    return await browser.runtime.sendMessage({ type: 'refwdformatter:getCaretBehavior' });
-                  } catch (e) {
-                    console.error('[ReFwdFormatter] Failed to get caret behavior:', e);
-                    return { caretPosition: 'top', selectQuote: false };
-                  }
-                }
-
-                // Wait for formatting to complete before moving caret
-                setTimeout(async () => {
-                  try {
-                    const behavior = await getCaretBehavior();
-                    const CARET_POSITION = behavior && behavior.caretPosition ? behavior.caretPosition : 'top';
-                    const SELECT_QUOTE = behavior && behavior.selectQuote === true;
-                    const editor = document.querySelector('body');
-                    if (!editor || !editor.firstChild) {
-                      return;
-                    }
-
-                    // Detect if this is HTML mode by checking for HTML block elements
-                    const hasBlockElements = editor.querySelector('p, div, blockquote, h1, h2, h3, h4, h5, h6');
-                    const isHtmlMode = hasBlockElements !== null;
-
-                    if (CARET_POSITION === 'bottom') {
-                      // BOTTOM: Add new content at the end
-                      let targetNode;
-
-                      if (isHtmlMode) {
-                        // HTML mode: Create a paragraph element
-                        const p = document.createElement('p');
-                        const br = document.createElement('br');
-                        p.appendChild(br);
-                        editor.appendChild(p);
-                        targetNode = p;
-                      } else {
-                        // Plain text mode: Just add a line break
-                        const br = document.createElement('br');
-                        editor.appendChild(br);
-                        targetNode = br;
-                      }
-
-                      const range = document.createRange();
-                      const sel = window.getSelection();
-
-                      // Move caret to the end (inside paragraph for HTML, after br for plain text)
-                      if (isHtmlMode) {
-                        range.setStart(targetNode, 0);
-                      } else {
-                        range.setStartAfter(targetNode);
-                      }
-                      range.collapse(true);
-                      sel.removeAllRanges();
-                      sel.addRange(range);
-
-                      // Focus the editor to ensure the caret is visible
-                      editor.focus();
-
-                      // Scroll to bottom
-                      window.scrollTo({
-                        top: document.documentElement.scrollHeight,
-                        behavior: 'smooth'
-                      });
-                    } else if (CARET_POSITION === 'top') {
-                      // TOP: Move caret to the beginning
-                      const range = document.createRange();
-                      const sel = window.getSelection();
-
-                      // Find the first text node or element
-                      const firstNode = editor.firstChild;
-                      if (firstNode) {
-                        if (firstNode.nodeType === Node.TEXT_NODE) {
-                          range.setStart(firstNode, 0);
-                        } else {
-                          range.setStartBefore(firstNode);
-                        }
-                        range.collapse(true);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-
-                        // Focus the editor
-                        editor.focus();
-
-                        // Scroll to top
-                        window.scrollTo({
-                          top: 0,
-                          behavior: 'smooth'
-                        });
-                      }
-                    } else if (CARET_POSITION === 'quote' || SELECT_QUOTE) {
-                      // QUOTE: Select quoted text block if available
-                      const sel = window.getSelection();
-                      let quoteNode = editor.querySelector('.replaced-blockquote');
-                      if (!quoteNode) {
-                        quoteNode = editor.querySelector('blockquote[type="cite"]') || editor.querySelector('blockquote');
-                      }
-                      if (!quoteNode) {
-                        const citePrefix = editor.querySelector('.moz-cite-prefix');
-                        if (citePrefix && citePrefix.nextElementSibling) {
-                          quoteNode = citePrefix.nextElementSibling;
-                        } else if (citePrefix) {
-                          const range = document.createRange();
-                          range.setStartBefore(citePrefix);
-                          range.setEndAfter(editor.lastChild || citePrefix);
-                          sel.removeAllRanges();
-                          sel.addRange(range);
-                          editor.focus();
-                          citePrefix.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                          return;
-                        }
-                      }
-
-                      if (quoteNode) {
-                        const range = document.createRange();
-                        range.selectNodeContents(quoteNode);
-                        sel.removeAllRanges();
-                        sel.addRange(range);
-                        editor.focus();
-                        quoteNode.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                      }
-                    }
-                  } catch (e) {
-                    console.error('[ReFwdFormatter] Caret movement failed:', e);
-                  }
-                }, 1000); // Delay to ensure formatting completes first
-              })();
-            `
-          }]
-        });
-        console.log('[ReFwdFormatter] Caret movement script registered');
-      } catch (error) {
-        console.error('[ReFwdFormatter] Failed to register caret script:', error);
-      }
+          file: "compose-caret.js"
+        }]
+      });
+      console.log('[ReFwdFormatter] Caret movement script registered');
+    } catch (error) {
+      console.error('[ReFwdFormatter] Failed to register caret script:', error);
+    }
   },
 
   // Listen for settings changes and re-register caret script if caret_position changed
@@ -500,14 +389,24 @@ var refwdformatter = {
           const tabId = sender && sender.tab ? sender.tab.id : null;
           const behavior = await refwdformatter.determineCaretBehaviorForTab(tabId);
           const effectivePosition = behavior.caretPosition === 'top' ? 'top' : 'bottom';
-          return { caretPosition: effectivePosition, selectQuote: behavior.selectQuote };
+          return { caretPosition: effectivePosition, selectQuote: behavior.selectQuote, quoteHeaderText: behavior.quoteHeaderText || null };
         }
 
         if (caretPosition === 'quote') {
-          return { caretPosition: 'top', selectQuote: true };
+          let quoteHeaderText = null;
+          try {
+            const tabId = sender && sender.tab ? sender.tab.id : null;
+            if (tabId !== null) {
+              const details = await browser.compose.getComposeDetails(tabId);
+              quoteHeaderText = refwdformatter.getQuoteHeaderText(details);
+            }
+          } catch (error) {
+            console.warn('[ReFwdFormatter] Failed to read quote header text:', error);
+          }
+          return { caretPosition: 'top', selectQuote: true, quoteHeaderText: quoteHeaderText };
         }
 
-        return { caretPosition: caretPosition, selectQuote: false };
+        return { caretPosition: caretPosition, selectQuote: false, quoteHeaderText: null };
       }
       return undefined;
     });
