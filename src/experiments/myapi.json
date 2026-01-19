@@ -1,0 +1,20 @@
+[
+  {
+    "namespace": "myapi",
+    "description": "Custom prefs access for ReFwdFormatter",
+    "functions": [
+      {
+        "name": "getPref",
+        "type": "function",
+        "description": "Get a preference value by name.",
+        "async": true,
+        "parameters": [
+          {
+            "name": "prefName",
+            "type": "string"
+          }
+        ]
+      }
+    ]
+  }
+]

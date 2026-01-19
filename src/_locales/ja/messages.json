@@ -27,7 +27,7 @@
     "message": "引用部を選択"
   },
   "caretAutoLabel": {
-    "message": "自動（本体同期）"
+    "message": "自動（メールアカウント設定に従う）"
   },
   "currentlyLabel": {
     "message": "現在"

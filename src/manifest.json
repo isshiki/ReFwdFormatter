@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
 	"description": "__MSG_extensionDescription__",
-  "version": "2.144.0",
+  "version": "2.143.0",
   "author": "Masahiko Isshiki",
   "developer": {
 	  "name": "Masahiko Isshiki",
@@ -23,6 +23,16 @@
   },
   "permissions": ["storage", "compose"],
   "optional_permissions": ["accountsRead"],
+  "experiment_apis": {
+    "myapi": {
+      "schema": "experiments/myapi.json",
+      "parent": {
+        "scopes": ["addon_parent"],
+        "paths": [["myapi"]],
+        "script": "experiments/myapi.js"
+      }
+    }
+  },
   "default_locale": "en",
   "icons": {
     "64": "icons/refwd.png",

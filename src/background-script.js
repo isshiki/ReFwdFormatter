@@ -278,9 +278,21 @@ var refwdformatter = {
     try {
       const details = await browser.compose.getComposeDetails(tabId);
       const identityId = details ? details.identityId : null;
-      const autoQuote = await refwdformatter.getIdentityPref(identityId, 'auto_quote', true);
-      const replyOnTop = await refwdformatter.getIdentityPref(identityId, 'reply_on_top', 1);
-      const sigBottom = await refwdformatter.getIdentityPref(identityId, 'sig_bottom', true);
+      let autoQuote;
+      let replyOnTop;
+      let sigBottom;
+
+      // Use prefs via experiment API
+      if (autoQuote === undefined) {
+        autoQuote = await refwdformatter.getIdentityPref(identityId, 'auto_quote', true);
+      }
+      if (replyOnTop === undefined) {
+        replyOnTop = await refwdformatter.getIdentityPref(identityId, 'reply_on_top', 1);
+      }
+      if (sigBottom === undefined) {
+        sigBottom = await refwdformatter.getIdentityPref(identityId, 'sig_bottom', true);
+      }
+
       const behavior = refwdformatter.determineCaretBehavior(autoQuote, replyOnTop, sigBottom);
       behavior.quoteHeaderText = refwdformatter.getQuoteHeaderText(details);
       return behavior;
@@ -312,7 +324,7 @@ var refwdformatter = {
     if (refwdformatter.caretScriptId) {
       try {
         await refwdformatter.caretScriptId.unregister();
-        console.log('[ReFwdFormatter] Caret movement script unregistered');
+        //console.log('[ReFwdFormatter] Caret movement script unregistered');
         refwdformatter.caretScriptId = null;
       } catch (error) {
         console.error('[ReFwdFormatter] Failed to unregister caret script:', error);
@@ -332,7 +344,7 @@ var refwdformatter = {
           file: "compose-caret.js"
         }]
       });
-      console.log('[ReFwdFormatter] Caret movement script registered');
+      //console.log('[ReFwdFormatter] Caret movement script registered');
     } catch (error) {
       console.error('[ReFwdFormatter] Failed to register caret script:', error);
     }
@@ -346,7 +358,7 @@ var refwdformatter = {
 
       // Check if caret_position changed
       if (oldPrefs.caret_position !== newPrefs.caret_position) {
-        console.log('[ReFwdFormatter] Caret position setting changed from', oldPrefs.caret_position, 'to', newPrefs.caret_position);
+        //console.log('[ReFwdFormatter] Caret position setting changed from', oldPrefs.caret_position, 'to', newPrefs.caret_position);
         // Re-register the caret movement script with new settings
         await refwdformatter.registerCaretMovementScript();
       }

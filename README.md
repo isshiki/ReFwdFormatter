@@ -14,20 +14,6 @@ To install this add-on, Please visit the following page.
 
 You can customize this add-on behavior from the [Setting] button for this add-on on [Thunderbird Add-on Manager].
 
-## IME workaround (Thunderbird 143+)
-
-- If IME will not type in a reply, click the Subject once and then click back in the Body to continue typing (known workaround until Thunderbird fixes the timing issue).
-
-## Caret/cursor position in replies
-
-ReFwdFormatter does **not** control the caret/cursor position in the compose window.
-
-In **Plain Text** mode, Thunderbird may place the caret at the **bottom** of the message (after the quote/signature), and add-ons cannot reliably change this.
-
-In **HTML** mode, the caret is usually placed at the top, but behavior may vary depending on Thunderbird settings, signatures, or other add-ons.
-
-At this time, ReFwdFormatter cannot provide a reliable fix for caret placement.
-
 ## Developing Or Fixing some issues
 
 Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to build and test this add-on".
@@ -53,8 +39,10 @@ src/
 ## Version History
 
 - v 2.143.0
-  - Timing guard tightened: staggered retries (250/400/600/800 ms) and single-pass processing to avoid duplicate runs.
-  - Cleanup: minimal code refresh while awaiting Thunderbird-side fix (expected 147+ event timing).
+  - Added caret/cursor positioning after reply formatting (top/bottom/select quote) with auto mode following account settings.
+  - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
+  - Addressed IME-related compose timing issues as a side effect of updated compose handling.
+  - Internal refactor: compose script extracted to file and experiment API added for preference access.
 
 - v 2.136.0
   - Support for Thunderbird 135 and later.
