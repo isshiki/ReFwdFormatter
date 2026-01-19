@@ -3,6 +3,8 @@ var refwdformatter = {
   processed: new Set(),  // Track processed tabs to avoid re-processing
   processing: new Set(), // Track tabs currently being processed (prevents overlapping attempts)
 
+  caretScriptId: null,  // Track registered compose script for caret movement
+
   kCurrentLegacyMigration: 1,  // Migration flag. 0: not-migrated, 1: already-migrated
   kProcessingDelays: [250, 400, 600, 800], // Delays (ms) for staggered retries to let compose editor finish init
   kPrefDefaults: {
@@ -112,7 +114,12 @@ var refwdformatter = {
               replace(/\n>((>)+)\r/g, "\n$1\r").
               replace(/\n>((>)+)$/g, "\n$1");
 
-            await browser.compose.setComposeDetails(tab.id, { plainTextBody: textbody });
+            // Testing...
+            //await browser.compose.setComposeDetails(tab.id, { plainTextBody: textbody });
+            // Fix for Thunderbird 143+ IME issue: use full composeDetails object
+            let compose_data_text = await browser.compose.getComposeDetails(tab.id);
+            compose_data_text.plainTextBody = textbody;
+            await browser.compose.setComposeDetails(tab.id, compose_data_text);
 
           } else if (reh && isHtml) {
             // HTML processing
@@ -140,7 +147,12 @@ var refwdformatter = {
               }
 
               let html = new XMLSerializer().serializeToString(document);
-              await browser.compose.setComposeDetails(tab.id, { body: html });
+              // Testing...
+              //await browser.compose.setComposeDetails(tab.id, { body: html });
+              // Fix for Thunderbird 143+ IME issue: use full composeDetails object
+              let compose_data_html = await browser.compose.getComposeDetails(tab.id);
+              compose_data_html.body = html;
+              await browser.compose.setComposeDetails(tab.id, compose_data_html);
             }
           }
         }
@@ -192,6 +204,79 @@ var refwdformatter = {
     refwdformatter.processing.delete(tabId);
   },
 
+  // Register a script that moves the caret to the bottom of the email after formatting
+  // This runs for all compose windows and helps position the cursor for immediate typing
+  registerCaretMovementScript: async function() {
+    if (!refwdformatter.caretScriptId) {
+      try {
+        refwdformatter.caretScriptId = await browser.composeScripts.register({
+          js: [{
+            code: `
+              (function() {
+                // Wait for formatting to complete before moving caret
+                setTimeout(() => {
+                  try {
+                    const editor = document.querySelector('body');
+                    if (!editor || !editor.lastChild) {
+                      return;
+                    }
+
+                    // Detect if this is HTML mode by checking for HTML block elements
+                    const hasBlockElements = editor.querySelector('p, div, blockquote, h1, h2, h3, h4, h5, h6');
+                    const isHtmlMode = hasBlockElements !== null;
+
+                    let targetNode;
+
+                    if (isHtmlMode) {
+                      // HTML mode: Create a paragraph element
+                      const p = document.createElement('p');
+                      const br = document.createElement('br');
+                      p.appendChild(br);
+                      editor.appendChild(p);
+                      targetNode = p;
+                    } else {
+                      // Plain text mode: Just add a line break
+                      const br = document.createElement('br');
+                      editor.appendChild(br);
+                      targetNode = br;
+                    }
+
+                    const range = document.createRange();
+                    const sel = window.getSelection();
+
+                    // Move caret to the end (inside paragraph for HTML, after br for plain text)
+                    if (isHtmlMode) {
+                      range.setStart(targetNode, 0);
+                    } else {
+                      range.setStartAfter(targetNode);
+                    }
+                    range.collapse(true);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+
+                    // Focus the editor to ensure the caret is visible
+                    editor.focus();
+
+                    // Scroll the caret into view
+                    window.scrollTo({
+                      top: document.documentElement.scrollHeight,
+                      behavior: 'smooth'
+                    });
+                  } catch (e) {
+                    console.error('[ReFwdFormatter] Caret movement failed:', e);
+                  }
+                }, 1000); // Delay to ensure formatting completes first
+              })();
+            `
+          }]
+        });
+        console.log('[ReFwdFormatter] Caret movement script registered');
+      } catch (error) {
+        console.error('[ReFwdFormatter] Failed to register caret script:', error);
+      }
+    }
+  },
+
   onLoad: function () {
     browser.tabs.onCreated.addListener(refwdformatter.onDelayLoad);
     browser.tabs.onRemoved.addListener(refwdformatter.onTabRemoved);
@@ -208,6 +293,9 @@ var refwdformatter = {
     // } else if (browser.compose.onComposeStateChanged) {
     //   browser.compose.onComposeStateChanged.addListener(refwdformatter.onComposeStateChanged);
     // }
+
+    // Register caret movement script for positioning cursor at bottom after formatting
+    refwdformatter.registerCaretMovementScript();
   }
 
 };

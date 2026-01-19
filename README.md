@@ -18,6 +18,16 @@ You can customize this add-on behavior from the [Setting] button for this add-on
 
 - If IME will not type in a reply, click the Subject once and then click back in the Body to continue typing (known workaround until Thunderbird fixes the timing issue).
 
+## Caret/cursor position in replies
+
+ReFwdFormatter does **not** control the caret/cursor position in the compose window.
+
+In **Plain Text** mode, Thunderbird may place the caret at the **bottom** of the message (after the quote/signature), and add-ons cannot reliably change this.
+
+In **HTML** mode, the caret is usually placed at the top, but behavior may vary depending on Thunderbird settings, signatures, or other add-ons.
+
+At this time, ReFwdFormatter cannot provide a reliable fix for caret placement.
+
 ## Developing Or Fixing some issues
 
 Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to build and test this add-on".
