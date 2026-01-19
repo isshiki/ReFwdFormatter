@@ -39,6 +39,7 @@ src/
 ## Version History
 
 - v 2.143.0
+- - Support for Thunderbird 143 and later.
   - Added caret/cursor positioning after reply formatting (top/bottom/select quote) with auto mode following account settings.
   - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
   - Addressed IME-related compose timing issues as a side effect of updated compose handling.
