@@ -14,6 +14,42 @@
   "replyhtmlLabel": {
     "message": "返信時に、HTML形式メールの引用からプレフィクス '|' を除去します。"
   },
+  "caretPositionLabel": {
+    "message": "返信フォーマット後のカーソル位置（引用時の返答位置）："
+  },
+  "caretTopLabel": {
+    "message": "引用部の上"
+  },
+  "caretBottomLabel": {
+    "message": "引用部の下"
+  },
+  "caretQuoteLabel": {
+    "message": "引用部を選択"
+  },
+  "caretAutoLabel": {
+    "message": "自動（本体同期）"
+  },
+  "currentlyLabel": {
+    "message": "現在"
+  },
+  "permissionGrantedLabel": {
+    "message": "権限あり"
+  },
+  "detectedTop": {
+    "message": "上"
+  },
+  "detectedBottom": {
+    "message": "下"
+  },
+  "detectionNeedsPermissionLabel": {
+    "message": "要権限：クリックして許可"
+  },
+  "detectionUnavailableLabel": {
+    "message": "検出できません - 設定を取得できません"
+  },
+  "autoPermissionDeniedWarning": {
+    "message": "自動設定は権限がないため使用できません。上の設定に切り替えました："
+  },
   "btnSaveLabel": {
     "message": "　　　保存　　　"
   },

@@ -22,6 +22,7 @@
     "open_in_tab": true
   },
   "permissions": ["storage", "compose"],
+  "optional_permissions": ["accountsRead"],
   "default_locale": "en",
   "icons": {
     "64": "icons/refwd.png",
