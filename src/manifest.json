@@ -22,17 +22,6 @@
     "open_in_tab": true
   },
   "permissions": ["storage", "compose"],
-  "optional_permissions": ["accountsRead"],
-  "experiment_apis": {
-    "myapi": {
-      "schema": "experiments/myapi.json",
-      "parent": {
-        "scopes": ["addon_parent"],
-        "paths": [["myapi"]],
-        "script": "experiments/myapi.js"
-      }
-    }
-  },
   "default_locale": "en",
   "icons": {
     "64": "icons/refwd.png",

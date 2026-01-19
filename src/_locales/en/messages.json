@@ -26,30 +26,6 @@
   "caretQuoteLabel": {
     "message": "Select quoted text"
   },
-  "caretAutoLabel": {
-    "message": "Auto (follow account settings)"
-  },
-  "currentlyLabel": {
-    "message": "Currently"
-  },
-  "permissionGrantedLabel": {
-    "message": "Permission granted"
-  },
-  "detectedTop": {
-    "message": "Top"
-  },
-  "detectedBottom": {
-    "message": "Bottom"
-  },
-  "detectionNeedsPermissionLabel": {
-    "message": "Permission required: click to allow"
-  },
-  "detectionUnavailableLabel": {
-    "message": "Unable to detect - setting not available"
-  },
-  "autoPermissionDeniedWarning": {
-    "message": "Auto mode requires permission and cannot be used. Switched to the setting above at "
-  },
   "btnSaveLabel": {
     "message": "　　　Save　　　"
   },

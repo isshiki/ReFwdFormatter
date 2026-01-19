@@ -10,7 +10,7 @@ var refwdformatter = {
   kPrefDefaults: {
     replytext_on: true,
     replyhtml_on: true,
-    caret_position: 'top'  // 'top', 'bottom', 'auto', or 'quote' - default is top
+    caret_position: 'top'  // 'top', 'bottom', or 'quote' - default is top
   },
   loadPrefs: async function () {
 
@@ -205,103 +205,6 @@ var refwdformatter = {
     refwdformatter.processing.delete(tabId);
   },
 
-  getPrefValue: async function(prefName, defaultValue) {
-    if (!browser.myapi || !browser.myapi.getPref) {
-      return defaultValue;
-    }
-    try {
-      const value = await browser.myapi.getPref(prefName);
-      return value === undefined ? defaultValue : value;
-    } catch (error) {
-      console.error('[ReFwdFormatter] Failed to read pref:', prefName, error);
-      return defaultValue;
-    }
-  },
-
-  getIdentityPref: async function(identityId, key, defaultValue) {
-    if (identityId) {
-      const byId = await refwdformatter.getPrefValue(`mail.identity.${identityId}.${key}`, undefined);
-      if (byId !== undefined) {
-        return byId;
-      }
-    }
-    const byDefault = await refwdformatter.getPrefValue(`mail.identity.default.${key}`, undefined);
-    if (byDefault !== undefined) {
-      return byDefault;
-    }
-    return defaultValue;
-  },
-
-  normalizeBoolean: function(value, defaultValue) {
-    if (value === undefined || value === null) return defaultValue;
-    if (typeof value === 'boolean') return value;
-    if (typeof value === 'number') return value !== 0;
-    if (typeof value === 'string') return value.toLowerCase() === 'true' || value === '1';
-    return defaultValue;
-  },
-
-  normalizeInteger: function(value, defaultValue) {
-    if (value === undefined || value === null) return defaultValue;
-    const parsed = parseInt(value, 10);
-    return Number.isNaN(parsed) ? defaultValue : parsed;
-  },
-
-  determineCaretBehavior: function(autoQuote, replyOnTop, sigBottom) {
-    const normalizedAutoQuote = refwdformatter.normalizeBoolean(autoQuote, true);
-    const normalizedReplyOnTop = refwdformatter.normalizeInteger(replyOnTop, 1);
-    const normalizedSigBottom = refwdformatter.normalizeBoolean(sigBottom, true);
-
-    let caretPosition = 'top';
-    let selectQuote = false;
-
-    if (normalizedReplyOnTop === 0) {
-      caretPosition = 'bottom';
-    } else if (normalizedReplyOnTop === 2) {
-      caretPosition = 'top';
-      selectQuote = true;
-    }
-
-    if (!normalizedAutoQuote) {
-      selectQuote = false;
-    }
-
-    return {
-      caretPosition,
-      selectQuote,
-      normalizedAutoQuote,
-      normalizedReplyOnTop,
-      normalizedSigBottom
-    };
-  },
-
-  determineCaretBehaviorForTab: async function(tabId) {
-    try {
-      const details = await browser.compose.getComposeDetails(tabId);
-      const identityId = details ? details.identityId : null;
-      let autoQuote;
-      let replyOnTop;
-      let sigBottom;
-
-      // Use prefs via experiment API
-      if (autoQuote === undefined) {
-        autoQuote = await refwdformatter.getIdentityPref(identityId, 'auto_quote', true);
-      }
-      if (replyOnTop === undefined) {
-        replyOnTop = await refwdformatter.getIdentityPref(identityId, 'reply_on_top', 1);
-      }
-      if (sigBottom === undefined) {
-        sigBottom = await refwdformatter.getIdentityPref(identityId, 'sig_bottom', true);
-      }
-
-      const behavior = refwdformatter.determineCaretBehavior(autoQuote, replyOnTop, sigBottom);
-      behavior.quoteHeaderText = refwdformatter.getQuoteHeaderText(details);
-      return behavior;
-    } catch (error) {
-      console.error('[ReFwdFormatter] Failed to determine caret behavior:', error);
-      return refwdformatter.determineCaretBehavior(true, 1, true);
-    }
-  },
-
   getQuoteHeaderText: function(details) {
     try {
       if (!details || !details.body) {
@@ -389,20 +292,7 @@ var refwdformatter = {
     browser.runtime.onMessage.addListener(async (message, sender) => {
       if (message && message.type === 'refwdformatter:getCaretBehavior') {
         const prefs = await refwdformatter.loadPrefs();
-        const caretPosition = prefs.caret_position || 'top';
-
-        if (caretPosition === 'auto') {
-          const hasPermission = await browser.permissions.contains({
-            permissions: ['accountsRead']
-          });
-          if (!hasPermission) {
-            return { caretPosition: 'bottom', selectQuote: false };
-          }
-          const tabId = sender && sender.tab ? sender.tab.id : null;
-          const behavior = await refwdformatter.determineCaretBehaviorForTab(tabId);
-          const effectivePosition = behavior.caretPosition === 'top' ? 'top' : 'bottom';
-          return { caretPosition: effectivePosition, selectQuote: behavior.selectQuote, quoteHeaderText: behavior.quoteHeaderText || null };
-        }
+        let caretPosition = prefs.caret_position || 'top';
 
         if (caretPosition === 'quote') {
           let quoteHeaderText = null;
@@ -418,6 +308,9 @@ var refwdformatter = {
           return { caretPosition: 'top', selectQuote: true, quoteHeaderText: quoteHeaderText };
         }
 
+        if (caretPosition !== 'top' && caretPosition !== 'bottom') {
+          caretPosition = 'top';
+        }
         return { caretPosition: caretPosition, selectQuote: false, quoteHeaderText: null };
       }
       return undefined;

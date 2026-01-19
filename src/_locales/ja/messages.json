@@ -26,30 +26,6 @@
   "caretQuoteLabel": {
     "message": "引用部を選択"
   },
-  "caretAutoLabel": {
-    "message": "自動（メールアカウント設定に従う）"
-  },
-  "currentlyLabel": {
-    "message": "現在"
-  },
-  "permissionGrantedLabel": {
-    "message": "権限あり"
-  },
-  "detectedTop": {
-    "message": "上"
-  },
-  "detectedBottom": {
-    "message": "下"
-  },
-  "detectionNeedsPermissionLabel": {
-    "message": "要権限：クリックして許可"
-  },
-  "detectionUnavailableLabel": {
-    "message": "検出できません - 設定を取得できません"
-  },
-  "autoPermissionDeniedWarning": {
-    "message": "自動設定は権限がないため使用できません。上の設定に切り替えました："
-  },
   "btnSaveLabel": {
     "message": "　　　保存　　　"
   },
