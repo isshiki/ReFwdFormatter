@@ -14,6 +14,19 @@ To install this add-on, Please visit the following page.
 
 You can customize this add-on behavior from the [Setting] button for this add-on on [Thunderbird Add-on Manager].
 
+## Settings
+
+You can configure the following options:
+
+- Remove the `>` prefix from quoted lines in **plain text** replies.
+- Remove the `|` prefix from quoted blocks in **HTML** replies.
+- Caret/cursor position after reply formatting:
+  - **Above quote** (default)
+  - **Below quote**
+  - **Select quote**
+
+Note: Thunderbird’s per-account quote placement preference is intentionally not used; ReFwdFormatter always follows its own setting (to keep required permissions minimal).
+
 ## Developing Or Fixing some issues
 
 Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to build and test this add-on".
