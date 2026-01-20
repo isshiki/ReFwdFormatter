@@ -1,5 +1,7 @@
 (function() {
 
+  let caretApplied = false;
+
   async function getCaretBehavior() {
     try {
       return await browser.runtime.sendMessage({ type: 'refwdformatter:getCaretBehavior' });
@@ -198,13 +200,20 @@
   }
 
   browser.runtime.onMessage.addListener((message) => {
-    if (!message || message.type !== 'refwdformatter:formatHtml') {
+    if (!message) {
       return undefined;
     }
     try {
-      const editor = document.querySelector('body');
-      if (editor && editor.firstChild) {
-        replaceFirstBlockquote(editor);
+      if (message.type === 'refwdformatter:formatHtml') {
+        const editor = document.querySelector('body');
+        if (editor && editor.firstChild) {
+          replaceFirstBlockquote(editor);
+        }
+      } else if (message.type === 'refwdformatter:preFormatText') {
+        const editor = document.querySelector('body');
+        if (editor && editor.firstChild) {
+          moveCaretTop(editor);
+        }
       }
     } catch (e) {
       // ignore
@@ -212,35 +221,51 @@
     return undefined;
   });
 
-  setTimeout(async () => {
-    const behavior = await getCaretBehavior();
-    if (!behavior || !behavior.selectQuote) {
-      const editor = document.querySelector('body');
-      if (!editor || !editor.firstChild) {
-        return;
-      }
-      const hasBlockElements = editor.querySelector('p, div, blockquote, h1, h2, h3, h4, h5, h6');
-      const isHtmlMode = hasBlockElements !== null;
-      if (behavior && behavior.caretPosition === 'bottom') {
-        if (moveCaretBottom(editor, isHtmlMode)) {
-          scheduleCaretMove(editor, isHtmlMode, 'bottom');
-        }
-      } else {
-        if (moveCaretTop(editor)) {
-          scheduleCaretMove(editor, isHtmlMode, 'top');
-        }
-      }
-      return;
+  function applyCaretBehavior(skipHtml) {
+    if (caretApplied) {
+      return true;
     }
     const editor = document.querySelector('body');
     if (!editor || !editor.firstChild) {
-      return;
+      return false;
     }
     const hasBlockElements = editor.querySelector('p, div, blockquote, h1, h2, h3, h4, h5, h6');
     const isHtmlMode = hasBlockElements !== null;
-    const selected = selectQuoteRange(editor, isHtmlMode);
-    if (selected) {
-      scheduleReselect(editor, isHtmlMode);
+    if (skipHtml && isHtmlMode) {
+      return false;
     }
+    return getCaretBehavior().then((behavior) => {
+      if (caretApplied) {
+        return true;
+      }
+      if (!behavior || !behavior.selectQuote) {
+        if (behavior && behavior.caretPosition === 'bottom') {
+          if (moveCaretBottom(editor, isHtmlMode)) {
+            scheduleCaretMove(editor, isHtmlMode, 'bottom');
+            caretApplied = true;
+          }
+        } else {
+          if (moveCaretTop(editor)) {
+            scheduleCaretMove(editor, isHtmlMode, 'top');
+            caretApplied = true;
+          }
+        }
+        return caretApplied;
+      }
+      const selected = selectQuoteRange(editor, isHtmlMode);
+      if (selected) {
+        scheduleReselect(editor, isHtmlMode);
+        caretApplied = true;
+      }
+      return caretApplied;
+    });
+  }
+
+  setTimeout(() => {
+    void applyCaretBehavior(true);
+  }, 300);
+
+  setTimeout(() => {
+    void applyCaretBehavior(false);
   }, 1000);
 })();

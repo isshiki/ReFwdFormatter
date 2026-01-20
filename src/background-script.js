@@ -106,6 +106,11 @@ var refwdformatter = {
           if (ret && isPlainText) {
             // Plain text processing
             let textbody = details.plainTextBody;
+            // try {
+            //   await browser.tabs.sendMessage(tab.id, { type: 'refwdformatter:preFormatText' });
+            // } catch (e) {
+            //   // ignore
+            // }
 
             // Remove quote prefixes
             textbody = textbody.replace("\r\n", "\n").replace("\r", "\n").replace("\n", "\r\n").
