@@ -20,7 +20,7 @@ Windows only. Please run build.bat. Or, read build.ps1 code. It shows "How to bu
 
 ## IME workaround (Thunderbird 143+)
 
-If IME input does not work right after reply formatting, click the Subject field once and then click back into the message body. This re-enables IME input in the body.
+IME input loss after reply formatting is addressed in v 2.143.0. If it still happens on some environments (e.g., beta builds), click the Subject field once and then click back into the message body. This re-enables IME input in the body.
 
 ### src folder's content
 
@@ -46,6 +46,7 @@ src/
 - - Support for Thunderbird 143 and later.
   - Added caret/cursor positioning after reply formatting (top/bottom/select quote).
   - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
+  - Fixed IME input loss after HTML reply formatting by switching HTML cleanup to in-editor DOM updates (no full body reset).
   - Internal refactor: compose script extracted to file.
 
 - v 2.136.0
