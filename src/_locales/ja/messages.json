@@ -33,7 +33,8 @@
     "message": "　キャンセル　"
   },
   "imeWorkaroundTip": {
-    "message": "Thunderbird 143以降でIMEが動かない場合は、件名欄を一度クリックしてから本文をクリックするとIMEで入力できます（既知の回避策）。"
+    "message": "",
+    "description": "Tip is not shown in Options by default; kept here for troubleshooting. Thunderbird 143以降でIMEが動かない場合は、件名欄を一度クリックしてから本文をクリックするとIMEで入力できます（既知の回避策）。"
   },
   "msgSaved": {
     "message": "オプション設定を保存しました："
