@@ -123,37 +123,10 @@ var refwdformatter = {
             await browser.compose.setComposeDetails(tab.id, compose_data_text);
 
           } else if (reh && isHtml) {
-            // HTML processing
-            let document = new DOMParser().parseFromString(htmlbody, "text/html");
-
-            if (document.body.hasChildNodes()) {
-              // Replace the first <blockquote> tag with new <div> tag
-              var childNodes = document.body.childNodes;
-              var is1stChild = true;
-              for (var l = 0; l < childNodes.length; l++) {
-                if (childNodes[l].tagName == "BLOCKQUOTE") {
-                  is1stChild = false;
-                  var newdiv = document.createElement("div");
-                  while (childNodes[l].firstChild) {
-                    newdiv.appendChild(childNodes[l].firstChild);
-                  }
-                  newdiv.setAttribute('class', 'replaced-blockquote');
-                  for (var index = childNodes[l].attributes.length - 1; index >= 0; --index) {
-                    newdiv.attributes.setNamedItem(childNodes[l].attributes[index].cloneNode());
-                  }
-                  childNodes[l].parentNode.replaceChild(newdiv, childNodes[l]);
-                  break;
-                }
-                if (!is1stChild) break;
-              }
-
-              let html = new XMLSerializer().serializeToString(document);
-              // Testing...
-              //await browser.compose.setComposeDetails(tab.id, { body: html });
-              // Fix for Thunderbird 143+ IME issue: use full composeDetails object
-              let compose_data_html = await browser.compose.getComposeDetails(tab.id);
-              compose_data_html.body = html;
-              await browser.compose.setComposeDetails(tab.id, compose_data_html);
+            try {
+              await browser.tabs.sendMessage(tab.id, { type: 'refwdformatter:formatHtml' });
+            } catch (e) {
+              throw e;
             }
           }
         }

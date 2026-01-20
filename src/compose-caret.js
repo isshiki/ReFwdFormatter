@@ -173,6 +173,45 @@
     }, 200);
   }
 
+  function replaceFirstBlockquote(editor) {
+    const nodes = Array.from(editor.childNodes || []);
+    let blockquote = null;
+    for (const node of nodes) {
+      if (node.nodeType === Node.ELEMENT_NODE && node.tagName === 'BLOCKQUOTE') {
+        blockquote = node;
+        break;
+      }
+    }
+    if (!blockquote) {
+      return false;
+    }
+    const newdiv = document.createElement('div');
+    while (blockquote.firstChild) {
+      newdiv.appendChild(blockquote.firstChild);
+    }
+    newdiv.setAttribute('class', 'replaced-blockquote');
+    for (let i = blockquote.attributes.length - 1; i >= 0; i--) {
+      newdiv.attributes.setNamedItem(blockquote.attributes[i].cloneNode());
+    }
+    blockquote.parentNode.replaceChild(newdiv, blockquote);
+    return true;
+  }
+
+  browser.runtime.onMessage.addListener((message) => {
+    if (!message || message.type !== 'refwdformatter:formatHtml') {
+      return undefined;
+    }
+    try {
+      const editor = document.querySelector('body');
+      if (editor && editor.firstChild) {
+        replaceFirstBlockquote(editor);
+      }
+    } catch (e) {
+      // ignore
+    }
+    return undefined;
+  });
+
   setTimeout(async () => {
     const behavior = await getCaretBehavior();
     if (!behavior || !behavior.selectQuote) {
