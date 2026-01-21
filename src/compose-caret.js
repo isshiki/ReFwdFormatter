@@ -238,7 +238,10 @@
       if (caretApplied) {
         return true;
       }
-      if (!behavior || !behavior.selectQuote) {
+      if (!behavior || behavior.caretEnabled === false) {
+        return true;
+      }
+      if (!behavior.selectQuote) {
         if (behavior && behavior.caretPosition === 'bottom') {
           if (moveCaretBottom(editor, isHtmlMode)) {
             scheduleCaretMove(editor, isHtmlMode, 'bottom');

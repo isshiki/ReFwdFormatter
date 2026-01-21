@@ -56,11 +56,12 @@ src/
 ## Version History
 
 - v 2.143.0
-- - Support for Thunderbird 143 and later.
+  - Support for Thunderbird 143 and later.
   - Added caret/cursor positioning after reply formatting (top/bottom/select quote).
   - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
   - Fixed IME input loss after HTML reply formatting by switching HTML cleanup to in-editor DOM updates (no full body reset).
   - Internal refactor: compose script extracted to file.
+  - v 2.143.1: Added an option to disable caret positioning (for add-on conflicts) so the add-on does not touch the cursor.
 
 - v 2.136.0
   - Support for Thunderbird 135 and later.

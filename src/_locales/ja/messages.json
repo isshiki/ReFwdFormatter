@@ -26,6 +26,9 @@
   "caretQuoteLabel": {
     "message": "引用部を選択"
   },
+  "caretDisableLabel": {
+    "message": "カーソル移動を無効にする（他のアドオンと干渉する場合はこれを試してください）"
+  },
   "btnSaveLabel": {
     "message": "　　　保存　　　"
   },

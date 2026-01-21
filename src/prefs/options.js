@@ -4,7 +4,7 @@ const kCurrentLegacyMigration = 1;  // Migration flag. 0: not-migrated, 1: alrea
 const kPrefDefaults = {
   replytext_on: true,
   replyhtml_on: true,
-  caret_position: 'top'  // 'top', 'bottom', or 'quote' - default is top
+  caret_position: 'top'  // 'top', 'bottom', 'quote', or 'disable' - default is top
 };
 
 
@@ -48,6 +48,8 @@ async function savePrefs() {
     caretPosition = 'bottom';
   } else if (document.getElementById("caretQuote").checked) {
     caretPosition = 'quote';
+  } else if (document.getElementById("caretDisable").checked) {
+    caretPosition = 'disable';
   }
 
   let prefs = {
@@ -66,12 +68,13 @@ async function resetPrefs(prefs) {
 
   // Set caret position radio buttons with fallback to 'top'
   let caretPos = prefs.caret_position || 'top';
-  if (caretPos !== 'top' && caretPos !== 'bottom' && caretPos !== 'quote') {
+  if (caretPos !== 'top' && caretPos !== 'bottom' && caretPos !== 'quote' && caretPos !== 'disable') {
     caretPos = 'top';
   }
   document.getElementById("caretTop").checked = (caretPos === 'top');
   document.getElementById("caretBottom").checked = (caretPos === 'bottom');
   document.getElementById("caretQuote").checked = (caretPos === 'quote');
+  document.getElementById("caretDisable").checked = (caretPos === 'disable');
 }
 
 async function restorePrefs() {
@@ -91,6 +94,7 @@ async function main() {
                    "caretTopLabel",
                    "caretBottomLabel",
                    "caretQuoteLabel",
+                   "caretDisableLabel",
                    "btnSaveLabel",
                    "btnCancelLabel"]) {
     let elm = document.getElementById(key);

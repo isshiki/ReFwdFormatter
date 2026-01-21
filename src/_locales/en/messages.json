@@ -26,6 +26,9 @@
   "caretQuoteLabel": {
     "message": "Select quoted text"
   },
+  "caretDisableLabel": {
+    "message": "Disable caret positioning (try this if it conflicts with other add-ons)"
+  },
   "btnSaveLabel": {
     "message": "　　　Save　　　"
   },

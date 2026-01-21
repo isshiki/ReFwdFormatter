@@ -10,7 +10,7 @@ var refwdformatter = {
   kPrefDefaults: {
     replytext_on: true,
     replyhtml_on: true,
-    caret_position: 'top'  // 'top', 'bottom', or 'quote' - default is top
+    caret_position: 'top'  // 'top', 'bottom', 'quote', or 'disable' - default is top
   },
   loadPrefs: async function () {
 
@@ -256,13 +256,6 @@ var refwdformatter = {
       browser.compose.onComposeStateChanged.addListener(refwdformatter.onComposeStateChanged);
     }
 
-    // TODO: When Thunderbird 146+ becomes stable, replace above with:
-    // if (browser.compose.onComposeEditorContentReady) {
-    //   browser.compose.onComposeEditorContentReady.addListener(refwdformatter.format);
-    // } else if (browser.compose.onComposeStateChanged) {
-    //   browser.compose.onComposeStateChanged.addListener(refwdformatter.onComposeStateChanged);
-    // }
-
     // Listen for settings changes to update caret position immediately
     browser.storage.onChanged.addListener(refwdformatter.onStorageChanged);
 
@@ -271,6 +264,9 @@ var refwdformatter = {
       if (message && message.type === 'refwdformatter:getCaretBehavior') {
         const prefs = await refwdformatter.loadPrefs();
         let caretPosition = prefs.caret_position || 'top';
+        if (caretPosition === 'disable') {
+          return { caretEnabled: false };
+        }
 
         if (caretPosition === 'quote') {
           let quoteHeaderText = null;
@@ -283,13 +279,13 @@ var refwdformatter = {
           } catch (error) {
             console.warn('[ReFwdFormatter] Failed to read quote header text:', error);
           }
-          return { caretPosition: 'top', selectQuote: true, quoteHeaderText: quoteHeaderText };
+          return { caretEnabled: true, caretPosition: 'top', selectQuote: true, quoteHeaderText: quoteHeaderText };
         }
 
         if (caretPosition !== 'top' && caretPosition !== 'bottom') {
           caretPosition = 'top';
         }
-        return { caretPosition: caretPosition, selectQuote: false, quoteHeaderText: null };
+        return { caretEnabled: true, caretPosition: caretPosition, selectQuote: false, quoteHeaderText: null };
       }
       return undefined;
     });
