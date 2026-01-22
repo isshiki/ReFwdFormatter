@@ -6,7 +6,7 @@ var refwdformatter = {
   caretScriptId: null,  // Track registered compose script for caret movement
 
   kCurrentLegacyMigration: 1,  // Migration flag. 0: not-migrated, 1: already-migrated
-  kProcessingDelays: [250, 400, 600, 800], // Delays (ms) for staggered retries to let compose editor finish init
+  kProcessingDelays: [700, 900, 1100, 1300], // Delays (ms) for staggered retries to let compose editor finish init
   kPrefDefaults: {
     replytext_on: true,
     replyhtml_on: true,
