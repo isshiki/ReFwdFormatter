@@ -61,7 +61,7 @@ src/
   - Implemented robust selection for both HTML and plain text replies; improved timing to avoid Thunderbird overrides.
   - Fixed IME input loss after HTML reply formatting by switching HTML cleanup to in-editor DOM updates (no full body reset).
   - Internal refactor: compose script extracted to file.
-  - v 2.143.1: Added an option to disable caret positioning (for add-on conflicts) so the add-on does not touch the cursor.
+  - v 2.143.1: Added an option to disable caret positioning (for add-on conflicts) so the add-on does not touch the cursor. (Also in 2.143.2)
 
 - v 2.136.0
   - Support for Thunderbird 135 and later.

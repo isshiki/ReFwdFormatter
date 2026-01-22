@@ -219,6 +219,12 @@ var refwdformatter = {
     // Unregister existing script if present
     await refwdformatter.unregisterCaretMovementScript();
 
+    // If disabled, do not register the script (avoids interference with other add-ons)
+    const prefs = await refwdformatter.loadPrefs();
+    if (prefs.caret_position === 'disable') {
+      return;
+    }
+
     try {
       refwdformatter.caretScriptId = await browser.composeScripts.register({
         js: [{
